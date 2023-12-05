@@ -1,10 +1,9 @@
-package com.shanheit.linkcloudbbs.config;
+package top.itshanhe.picturetradeplatform.config;
 
-import com.shanheit.linkcloudbbs.interceptor.HomeInterceptor;
+
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import top.itshanhe.picturetradeplatform.interceptor.HomeInterceptor;
 
 /**
  * <p>
@@ -12,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * </p>
  *
  * @author shanhe
- * @since 2023-11-21
+ * @date  2023-11-21
  */
 public class MvcConfig implements WebMvcConfigurer {
 

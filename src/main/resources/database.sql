@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `picture_category`(
      UNIQUE (`category_key_id`)
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact COMMENT '分类板块表';
 
-INSERT INTO picture_category VALUES(1,1,'默认','default','default,默认','默认分类');
+INSERT INTO picture_category VALUES(1,'aaaaaaaaaaaaa',1,'默认','default','default,默认','默认分类');
 
 #----------------------
 # 标签表

@@ -1,4 +1,4 @@
-package com.shanheit.linkcloudbbs.config;
+package top.itshanhe.picturetradeplatform.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * </p>
  *
  * @author shanhe
- * @since 2023-11-21
+ * @date  2023-11-21
  */
 @Configuration
 public class MybatisConfig {
