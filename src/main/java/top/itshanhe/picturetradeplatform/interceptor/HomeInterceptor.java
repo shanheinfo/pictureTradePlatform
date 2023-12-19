@@ -3,6 +3,9 @@ package top.itshanhe.picturetradeplatform.interceptor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * <p>
  *    主页拦截器
@@ -12,19 +15,18 @@ import org.springframework.web.servlet.ModelAndView;
  * @date 2023-11-21
  */
 public class HomeInterceptor implements HandlerInterceptor {
-    
     @Override
-    public boolean preHandle(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         return true;
     }
     
     @Override
-    public void postHandle(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+//        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
     
     @Override
-    public void afterCompletion(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, Object handler, Exception ex) throws Exception {
-
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+//        HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
 }

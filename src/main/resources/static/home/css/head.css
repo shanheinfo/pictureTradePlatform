@@ -1,0 +1,14 @@
+.nav-start {
+    display: flex;
+    justify-content: space-between;
+}
+/* 搜索框默认样式 */
+.search-input {
+    width: 270px; /* 默认宽度 */
+    transition: width 0.4s ease-in-out; /* 宽度变化的过渡效果 */
+}
+
+/* 搜索框获得焦点时的样式 */
+.search-input:focus {
+    width: 65vw; /* 获得焦点时的宽度 */
+}

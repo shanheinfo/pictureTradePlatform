@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-12-05
  */
 public interface IPictureUserService extends IService<PictureUser> {
-
+    
+    Boolean login(String username, String password);
 }

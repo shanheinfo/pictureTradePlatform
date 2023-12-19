@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>图片版权交易平台-首页</title>
+    <link rel="stylesheet" th:href="@{/boostrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/home/css/index.css}">
+    <script th:src="@{/boostrap/js/jquery.min.js}"></script>
+    <script th:src="@{/boostrap/js/popper.min.js}"></script>
+    <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/home/css/head.css}" />
+</head>
+<body>
+<header th:replace="home/header::header-head"></header>
+<div th:replace="home/nav::navigation"></div>
+<div th:replace="home/img::img-box"></div>
+
+
+<!-- 回到顶部按钮 -->
+<a href="javascript:;" class="btn btn-primary" id="back-to-top" role="button" style="position: fixed; bottom: 20px; right: 20px; z-index: 1050; display: none;">
+    <!-- Bootstrap 5 图标 -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 12a.5.5 0 0 1-.5-.5V5.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 5.707V11.5a.5.5 0 0 1-.5.5z"/>
+    </svg>
+</a>
+
+
+
+<script>
+    // 当用户滚动一定距离时显示按钮
+    window.addEventListener('scroll', function() {
+        var backToTop = document.getElementById('back-to-top');
+        if (window.scrollY > 100) {
+            backToTop.style.display = 'block';
+        } else {
+            backToTop.style.display = 'none';
+        }
+    });
+
+    // 当用户点击按钮时，用动画效果返回页面顶部
+    document.getElementById('back-to-top').addEventListener('click', function(event) {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+</script>
+
+
+</body>
+</html>

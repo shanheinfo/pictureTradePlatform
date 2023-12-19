@@ -2,6 +2,7 @@ package top.itshanhe.picturetradeplatform.config;
 
 
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import top.itshanhe.picturetradeplatform.interceptor.HomeInterceptor;
 
@@ -20,15 +21,15 @@ public class MvcConfig implements WebMvcConfigurer {
 //        //重定向到首页
 //        registry.addViewController("/").setViewName("forward:index.html");
 //    }
-//    /**
-//     * 设置静态资源映射
-//     * @param registry
-//     */
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
-//        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-//    }
+    /**
+     * 设置静态资源映射
+     * @param registry
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
     
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加一个拦截器，拦截以/admin为前缀的url路径（后台登陆拦截）

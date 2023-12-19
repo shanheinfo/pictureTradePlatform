@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: #f7f7f7;
+}
+.main {
+    margin: 50px 0px;
+}
+.login-data {
+    margin: 90px auto;
+    width: 500px;
+    padding: 50px 30px;
+    background: #fff;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.login-data button {
+    width: 30%;
+    margin-top: 20px;
+}
+.title-link {
+    background: #e3f2fd;
+}
+@media screen and (max-width: 600px) {
+    .login-data {
+        margin: 50px auto;
+        width: 100%;
+    }
+    #cacheImg {
+        margin: 10px auto;
+        display: block;
+        width: 50%;
+    }
+    #cacheImg img{
+        width: 100%
+    }
+}
+

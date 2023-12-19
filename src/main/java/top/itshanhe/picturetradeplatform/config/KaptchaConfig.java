@@ -30,7 +30,7 @@ public class KaptchaConfig {
         // 设置验证码文字之间的间距
         properties.put("kaptcha.textproducer.char.space", "7");
         // 设置验证码文字的长度为3
-        properties.put("kaptcha.textproducer.char.length", "3");
+        properties.put("kaptcha.textproducer.char.length", "1");
         // 设置验证码文字的大小为30
         properties.put("kaptcha.textproducer.font.size", "35");
         // 设置验证码图片的宽度为150

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/boostrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/home/css/index.css}">
+    <script th:src="@{/boostrap/js/jquery.min.js}"></script>
+    <script th:src="@{/boostrap/js/popper.min.js}"></script>
+    <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="masonry" th:fragment="img-box">
+  <div class="item" th:each="list : ${pictureImg}">
+    <img th:src="@{${list.imgUrl}}"/>
+    <div class="item-info">
+      <p th:text="'发布作者: '+${list.authorName}">作者: 没有</p>
+      <p th:text="'价格: '+${list.money}+'元'">价格: 0元</p>
+      <p th:text="'上架时间：'+${list.imgTime}">时间: 未知</p>
+      <p th:text="'作品名：' + ${list.authorName}">作品名：没有</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

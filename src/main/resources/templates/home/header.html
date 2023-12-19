@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>首页</title>
+  <link rel="stylesheet" th:href="@{/boostrap/css/bootstrap.min.css}" />
+  <script th:src="@{/boostrap/js/jquery.min.js}"></script>
+  <script th:src="@{/boostrap/js/popper.min.js}"></script>
+  <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
+  <link rel="stylesheet" th:href="@{/home/css/head.css}" />
+  <meta name="keywords" content="LinkCloudBBS,BBS" />
+  <meta name="description" content="LinkCloudBBS是一个轻量的bbs论坛"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-primary fixed-top" th:fragment="header-head">
+  <a class="navbar-brand font-weight-bolder mr-3" href="index.html"><img style="width: 50px" th:src="@{/assets/img/logo.png}"></a>
+  <button class="navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarsDefault">
+    <ul class="navbar-nav mr-auto align-items-center">
+      <form class="bd-search hidden-sm-down">
+        <input  type="text" class="form-control bg-graylight border-0 rounded-pill font-weight-bold search-input" id="search-input" placeholder="Search..." autocomplete="off">
+        <div class="dropdown-menu bd-search-results" id="search-results">
+        </div>
+      </form>
+    </ul>
+    <ul class="navbar-nav ml-auto align-items-center">
+      <li class="nav-item">
+        <a class="nav-link active" href="index.html">首页</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="post.html">竞拍</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="post.html">关于我们</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="post.html">关于版权</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="login.html"><img class="rounded-circle mr-2" src="assets/img/av.png" width="30"><span class="align-middle">山河</span></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+</body>
+</html>
