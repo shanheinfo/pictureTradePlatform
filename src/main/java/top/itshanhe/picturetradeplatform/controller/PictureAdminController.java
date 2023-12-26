@@ -1,18 +1,21 @@
 package top.itshanhe.picturetradeplatform.controller;
 
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import top.itshanhe.picturetradeplatform.common.Constants;
+import top.itshanhe.picturetradeplatform.dto.UserLookDataDTO;
+import top.itshanhe.picturetradeplatform.service.IPictureUserService;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * <p>
@@ -23,17 +26,60 @@ import javax.servlet.http.HttpSession;
  * @since 2023-12-05
  */
 @Controller
-@RequestMapping("/admin")
 @Slf4j
 public class PictureAdminController {
-    @GetMapping({"/index", "/index.html"})
-    public String adminHome(HttpServletRequest request, HttpSession session) {
+    @Resource
+    private IPictureUserService userService;
+    
+    // 每页显示的条目数量
+    private static final int PAGE_SIZE = 30;
+    
+    // 使用@GetMapping注解，指定处理的请求路径为"/admin/userData.html"或"/admin/userData"
+    @GetMapping({"/admin/userData.html", "/admin/userData","/admin/search"})
+    public String adminUserData(Model model,
+                                @RequestParam(name = "page", defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "null") String keyword,
+                                @RequestParam(defaultValue = "null") String searchOption,
+                                @RequestParam(defaultValue = "null") String searchType) {
+        
+        if (keyword.equals("null") && searchOption.equals("null") && searchType.equals("null")
+        || keyword.equals("null") && !searchOption.equals("null") && !searchType.equals("null")) {
+            // 计算偏移量，用于数据库查询时的分页
+            int offset = (page - 1) * PAGE_SIZE;
+    
+            // 获取分页数据，调用userService的getUserLookDataPaged方法，传入偏移量和每页条目数量
+            List<UserLookDataDTO> userLookDataDTOS = userService.getUserLookDataPaged(offset, PAGE_SIZE);
+    
+            // 获取总用户数，用于计算总页数
+            int totalUsers = userService.getTotalUsers();
+    
+            // 计算总页数，使用Math.ceil确保总页数为正整数
+            int totalPages = (int) Math.ceil((double) totalUsers / PAGE_SIZE);
+    
+            // 将分页数据传递到前端，供页面渲染使用
+            model.addAttribute("userLookDataDTOS", userLookDataDTOS);
+            model.addAttribute("currentPage", page);
+            // 下一页
+            model.addAttribute("currentNextPage", page + 1);
+            // 上一页
+            model.addAttribute("currentLastPage", page - 1);
+            model.addAttribute("totalPages", totalPages);
+        }
+        
+        // 返回视图名，Spring MVC会根据视图名解析并渲染对应的Thymeleaf模板
+        return "/admin/user/userData";
+    }
+
+    @GetMapping({"/admin/","/admin","/admin/index", "/admin/index.html"})
+    public String adminHome(Model model,HttpServletRequest request, HttpSession session) {
         // 从session中获取账号信息
         String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
-        log.info("数据:{}",loginSession);
-        if (loginSession.isEmpty()) {
-            return "redirect:/register";
+        if (StrUtil.isEmpty(loginSession)) {
+            return "redirect:/login";
         }
-        return "redirect:admin/index";
+        // 用户名
+        model.addAttribute("username",loginSession);
+        // 返回后台首页视图
+        return "admin/index";
     }
 }

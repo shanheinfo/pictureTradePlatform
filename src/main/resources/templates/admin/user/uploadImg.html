@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>文件上传结果</title>
+</head>
+<body>
+<h2>文件上传结果</h2>
+
+<!-- 显示上传成功的消息 -->
+<div th:if="${message}" class="success">
+  <p th:text="${message}"></p>
+  <img th:src="@{/home/img/6.jpg}">
+  <img src="D:\idea_java_projects\pictureTradePlatform\uploads\2023-12-22\4776e59f-faa8-40df-b5ae-2d5bc6f66c4d.JPG">
+  <img th:src="@{./uploads/2023-12-22/__${message}__}" alt="Image">
+
+
+</div>
+
+<!-- 显示上传失败的消息 -->
+<div th:if="${error}" class="error">
+  <p th:text="${error}"></p>
+</div>
+
+<!-- 返回上传表单的链接 -->
+<a th:href="@{/api/files/upload-form}">返回上传表单</a>
+</body>
+</html>

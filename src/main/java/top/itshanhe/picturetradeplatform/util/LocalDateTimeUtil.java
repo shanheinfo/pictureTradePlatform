@@ -33,7 +33,7 @@ public class LocalDateTimeUtil {
      */
     public static LocalDateTime localDateTime() {
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime sevenDaysLater = now.plusDays(7);
+        LocalDateTime sevenDaysLater = now.plusDays(1);
         return sevenDaysLater;
     }
 }

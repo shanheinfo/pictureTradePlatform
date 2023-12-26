@@ -27,6 +27,8 @@ public class MvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/autoImg/**")
+//                .addResourceLocations("./uploads/");  // 这里设置实际文件存储的路径
         registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }

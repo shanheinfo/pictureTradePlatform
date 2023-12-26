@@ -74,11 +74,19 @@ public class PictureUserController {
         // 账号密码判断
         if (StrUtil.isEmpty(username) || StrUtil.isEmpty(password) || StrUtil.isEmpty(email)) {
             session.setAttribute("errorMsg", "账号/密码/邮箱为空");
-            return "redirect:home/register";
+            return "redirect:/register";
         }
-        // todo 注册
-        request.getSession().setAttribute(Constants.LOGIN_KEY, username);
-        return "redirect:admin/index";
+        String ipAddress = request.getRemoteAddr();
+        //  注册
+        String userRegister = userService.register(username, password, email,ipAddress);
+        if (userRegister.equals("success")) {
+            request.getSession().setAttribute(Constants.LOGIN_KEY, username);
+            return "redirect:admin/index";
+        } else {
+            //注册失败
+            session.setAttribute("errorMsg", userRegister);
+            return "redirect:/register";
+        }
     }
     // 登录
     @PostMapping("/login-info")
@@ -91,19 +99,19 @@ public class PictureUserController {
         // 账号密码判断
         if (StrUtil.isEmpty(username) || StrUtil.isEmpty(password)) {
             session.setAttribute("errorMsg", "账号密码为空");
-            return "redirect:home/login";
+            return "redirect:/login";
         }
         // 从session中获取验证码
         String sessionCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_KEY);
         // 比较输入的验证码和session中的验证码是否一致
         if (sessionCode == null || !sessionCode.equalsIgnoreCase(code)) {
             session.setAttribute("errorMsg", "验证码不正确");
-            return "redirect:home/login";
+            return "redirect:/login";
         }
-        Boolean userData = userService.login(username,password);
-        if (!userData) {
+        Boolean loginUser = userService.login(username,password);
+        if (!loginUser) {
             session.setAttribute("errorMsg", "账号或者密码不存在");
-            return "redirect:home/login";
+            return "redirect:/login";
         }
         // 账号名存入session
         request.getSession().setAttribute(Constants.LOGIN_KEY, username);

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/boostrap/css/bootstrap.min.css}" />
+    <script th:src="@{/boostrap/js/jquery.min.js}"></script>
+    <script th:src="@{/boostrap/js/popper.min.js}"></script>
+    <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/boostrap/js/bootstrap.bundle.js}"></script>
+    <link rel="stylesheet" th:href="@{/admin/css/btn.css}" />
+</head>
+<body>
+<header th:replace="admin/header::header-box"></header>
+<div class="container mt-5">
+    <h2 class="mb-4">用户信息</h2>
+
+    <!-- 搜索栏 -->
+    <form method="get">
+        <div class="mb-3">
+            <input type="text" class="form-control" id="searchInput" name="keyword" placeholder="搜索...">
+        </div>
+
+        <div class="mb-3 d-flex align-items-end">
+            <!-- 搜索选项 -->
+            <select class="form-select me-3" id="searchOption" name="searchOption">
+                <option value="userId">用户ID</option>
+                <option value="username">用户名</option>
+                <option value="email">邮箱</option>
+            </select>
+
+            <!-- 搜索类型 -->
+            <div class="form-check me-3">
+                <input class="form-check-input" type="radio" name="searchType" value="oneSearch" id="fuzzySearch" checked>
+                <label class="form-check-label" for="fuzzySearch">模糊搜索</label>
+            </div>
+            <div class="form-check me-3">
+                <input class="form-check-input" type="radio" name="searchType" value="twoSearch" id="exactSearch">
+                <label class="form-check-label" for="exactSearch">精确搜索</label>
+            </div>
+        </div>
+
+        <!-- 搜索按钮 -->
+        <button type="submit" class="btn btn-primary btn-lg btn-buttons">搜索</button>
+    </form>
+
+
+    <!-- 用户信息表格 -->
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>用户ID</th>
+                <th>用户名</th>
+                <th>邮箱</th>
+                <th>积分余额</th>
+                <th>是否封禁</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 遍历后端传递的用户信息列表 -->
+            <tr th:each="user: ${userLookDataDTOS}">
+                <td th:text="${user.userId}"></td>
+                <td th:text="${user.userName}"></td>
+                <td th:text="${user.userEmail}"></td>
+                <td th:text="${user.userMoney}"></td>
+                <td th:text="${user.userStatus ? '是' : '否'}"></td>
+                <td>
+                    <button class="btn btn-info btn-sm">查看详情</button>
+                    <button class="btn btn-danger btn-sm">删除</button>
+                    <button class="btn btn-warning btn-sm">禁用</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 分页导航栏 -->
+    <nav aria-label="分页导航">
+        <!-- 分页链接列表 -->
+        <ul class="pagination justify-content-center flex-wrap">
+            <!-- 上一页按钮 -->
+            <li class="page-item" th:class="${currentPage == 1 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{'/admin/userData?page=' + ${currentLastPage}}">上一页</a>
+            </li>
+
+            <!-- 循环生成分页链接 -->
+<!--            #numbers.sequence(1, totalPages)：这是Thymeleaf表达式，使用了#numbers.sequence工具。它生成一个整数序列，从1开始，一直到totalPages结束 -->
+            <li class="page-item" th:each="page: ${#numbers.sequence(1, totalPages)}">
+                <a class="page-link" th:href="@{'/admin/userData?page=' + ${page} + '&ifSearch=' + ${ifSearch}}" th:text="${page}"></a>
+            </li>
+
+
+            <!-- 下一页按钮 -->
+            <li class="page-item" th:class="${currentPage == totalPages ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{'/admin/userData?page=' +${currentNextPage}}">下一页</a>
+            </li>
+
+        </ul>
+    </nav>
+
+
+
+</div>
+</body>
+</html>

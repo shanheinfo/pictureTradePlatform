@@ -1,7 +1,10 @@
 package top.itshanhe.picturetradeplatform.service;
 
+import top.itshanhe.picturetradeplatform.dto.UserLookDataDTO;
 import top.itshanhe.picturetradeplatform.entity.PictureUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +17,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IPictureUserService extends IService<PictureUser> {
     
     Boolean login(String username, String password);
+    
+    String register(String username, String password, String email,String ipAddress);
+    
+    int getTotalUsers();
+    
+    List<UserLookDataDTO> getUserLookDataPaged(int offset, int pageSize);
 }

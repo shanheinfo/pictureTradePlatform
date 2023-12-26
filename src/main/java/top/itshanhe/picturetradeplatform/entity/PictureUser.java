@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shanhe
- * @since 2023-12-05
+ * @since 2023-12-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -70,7 +70,7 @@ public class PictureUser implements Serializable {
     /**
      * 创建时IP
      */
-    private Integer userCreateIp;
+    private String userCreateIp;
 
     /**
      * 创建时间
