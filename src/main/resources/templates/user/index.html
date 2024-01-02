@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>后台</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/boostrap/css/bootstrap.min.css}" />
+  <script th:src="@{/boostrap/js/jquery.min.js}"></script>
+  <script th:src="@{/boostrap/js/popper.min.js}"></script>
+  <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
+  <script th:src="@{/boostrap/js/bootstrap.bundle.js}"></script>
+</head>
+<body>
+<header th:replace="user/header::user-header-box"></header>
+
+  <div class="container">
+    <div class="d-flex align-items-end " style="margin-top: 30px">
+      <div class="card text-bg-primary bg-info" style="width: 100%;">
+        <div class="card-body">
+          <h5 class="card-title">欢迎登陆后台</h5>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

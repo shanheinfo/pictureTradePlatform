@@ -1,6 +1,7 @@
 package top.itshanhe.picturetradeplatform.controller;
 
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author shanhe
  * @since 2023-12-05
  */
-@RestController
-@RequestMapping("/picture-file")
+@Controller
+@RequestMapping("/admin/picture-file")
 public class PictureFileController {
 
 }

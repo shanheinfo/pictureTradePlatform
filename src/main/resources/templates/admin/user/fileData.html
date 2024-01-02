@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>文件信息</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/boostrap/css/bootstrap.min.css}" />
+  <script th:src="@{/boostrap/js/jquery.min.js}"></script>
+  <script th:src="@{/boostrap/js/popper.min.js}"></script>
+  <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
+  <script th:src="@{/boostrap/js/bootstrap.bundle.js}"></script>
+  <link rel="stylesheet" th:href="@{/admin/css/btn.css}" />
+</head>
+<body>
+<header th:replace="admin/header::header-box"></header>
+<div class="container mt-5">
+  <h2 class="mb-4">文件信息</h2>
+
+  <!-- 搜索栏 -->
+  <form method="get" th:action="@{/admin/pictureDataSearch}">
+    <div class="mb-3">
+      <input type="text" class="form-control" id="searchInput" name="keyword" placeholder="搜索...">
+    </div>
+
+    <div class="mb-3 d-flex align-items-end">
+      <!-- 搜索选项 -->
+      <select class="form-select me-3" id="searchOption" name="searchOption">
+        <option value="userId">用户ID</option>
+        <option value="imgId">图片索引id</option>
+        <option value="imgName">图片名</option>
+      </select>
+
+      <!-- 价格范围 -->
+      <div class="mb-3">
+        <label for="priceRange" class="form-label">价格范围</label>
+        <input type="range" class="form-range" id="priceRange" name="priceRange" value="0" min="0" max="1000000">
+        <span id="priceRangeValue">0</span> - <span id="maxPriceRangeValue">1000000元</span>
+
+        <!-- 隐藏的最小价格输入 -->
+        <input type="hidden" id="minPriceHidden" name="minPriceHidden" value="0">
+
+        <!-- 隐藏的最大价格输入 -->
+        <input type="hidden" id="maxPriceHidden" name="maxPriceHidden" value="1000000">
+      </div>
+
+      <!-- 手动输入最小价格 -->
+      <div class="mb-3">
+        <label for="minPriceInput" class="form-label">手动输入最小价格</label>
+        <input type="number" class="form-control" id="minPriceInput" name="minPrice" min="0" max="1000000" style="margin: 5px">
+      </div>
+
+      <!-- 手动输入最大价格 -->
+      <div class="mb-3">
+        <label for="maxPriceInput" class="form-label">手动输入最大价格</label>
+        <input type="number" class="form-control" id="maxPriceInput" name="maxPrice" min="0" max="1000000"  style="margin: 5px">
+      </div>
+
+
+
+      <!-- 搜索类型 -->
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="searchType" value="oneSearch" id="fuzzySearch" checked>
+        <label class="form-check-label" for="fuzzySearch">模糊搜索</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="searchType" value="twoSearch" id="exactSearch">
+        <label class="form-check-label" for="exactSearch">精确搜索</label>
+      </div>
+    </div>
+
+    <!-- 搜索按钮 -->
+    <button type="submit" class="btn btn-primary btn-lg btn-buttons">搜索</button>
+  </form>
+
+
+  <!-- 用户信息表格 -->
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>图片ID</th>
+        <th>图片</th>
+        <th>用户ID</th>
+        <th>用户名</th>
+        <th>图片索引ID</th>
+        <th>图片名</th>
+        <th>价格</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="picture: ${pictureDataDTOS}">
+        <td th:text="${picture.id}"></td>
+        <!-- 显示图片 -->
+        <td><img th:src="${picture.imgAddr}" alt="Image" class="img-thumbnail" style="max-width: 100px;"></td>
+        <td th:text="${picture.userId}"></td>
+        <td th:text="${picture.userName}"></td>
+        <td th:text="${picture.imgIndex}"></td>
+        <td th:text="${picture.imgName}"></td>
+        <td th:text="${picture.imgMoney}"></td>
+        <td>
+          <button class="btn btn-info btn-sm">查看详情</button>
+          <button class="btn btn-danger btn-sm">删除</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- 分页导航栏 -->
+  <nav aria-label="分页导航">
+    <!-- 分页链接列表 -->
+    <ul class="pagination justify-content-center flex-wrap">
+      <!-- 上一页按钮 -->
+      <li class="page-item" th:class="${currentPage == 1 ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{'/admin/pictureDataSearch?page=' + ${currentLastPage} + '&keyword=' + ${keyword} + '&searchOption=' + ${searchOption} + '&searchType=' + ${searchType} + '&minPrice=' + ${minPrice} + '&maxPrice=' + ${maxPrice}}">上一页</a>
+      </li>
+
+      <!-- 循环生成分页链接 -->
+      <li class="page-item" th:each="page: ${#numbers.sequence(1, totalPages)}">
+        <a class="page-link" th:href="@{'/admin/pictureDataSearch?page=' + ${page} + '&keyword=' + ${keyword} + '&searchOption=' + ${searchOption} + '&searchType=' + ${searchType} + '&minPrice=' + ${minPrice} + '&maxPrice=' + ${maxPrice}}" th:text="${page}"></a>
+      </li>
+
+      <!-- 下一页按钮 -->
+      <li class="page-item" th:class="${currentPage == totalPages ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{'/admin/pictureDataSearch?page=' + ${currentNextPage} + '&keyword=' + ${keyword} + '&searchOption=' + ${searchOption} + '&searchType=' + ${searchType} + '&minPrice=' + ${minPrice} + '&maxPrice=' + ${maxPrice}}">下一页</a>
+      </li>
+    </ul>
+  </nav>
+
+
+  <script>
+    const priceRange = document.getElementById('priceRange');
+    const minPriceHidden = document.getElementById('minPriceHidden');
+    const maxPriceHidden = document.getElementById('maxPriceHidden');
+    const minPriceInput = document.getElementById('minPriceInput');
+    const maxPriceInput = document.getElementById('maxPriceInput');
+    const priceRangeValue = document.getElementById('priceRangeValue');
+    const maxPriceRangeValue = document.getElementById('maxPriceRangeValue');
+
+    // 初始显示当前选择的价格范围
+    priceRangeValue.textContent = priceRange.value;
+
+    // 更新最小价格和最大价格的隐藏输入框的值
+    function updateHiddenInputs() {
+      minPriceHidden.value = minPriceInput.value;
+      maxPriceHidden.value = maxPriceInput.value;
+    }
+
+    priceRange.addEventListener('input', function () {
+      priceRangeValue.textContent = priceRange.value;
+      updateHiddenInputs();
+    });
+
+    minPriceInput.addEventListener('input', function () {
+      updateHiddenInputs();
+    });
+
+    maxPriceInput.addEventListener('input', function () {
+      updateHiddenInputs();
+    });
+  </script>
+
+
+</div>
+</body>
+</html>

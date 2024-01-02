@@ -35,38 +35,45 @@ public class PictureAdminController {
     private static final int PAGE_SIZE = 30;
     
     // 使用@GetMapping注解，指定处理的请求路径为"/admin/userData.html"或"/admin/userData"
-    @GetMapping({"/admin/userData.html", "/admin/userData","/admin/search"})
+    @GetMapping({"/admin/userData.html", "/admin/userData"})
     public String adminUserData(Model model,
                                 @RequestParam(name = "page", defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "null") String keyword,
                                 @RequestParam(defaultValue = "null") String searchOption,
                                 @RequestParam(defaultValue = "null") String searchType) {
-        
+    
+        // 计算偏移量，用于数据库查询时的分页 数据，也就是从哪里开始
+        // 当 page 为 1 时，offset 为 0，表示从查询结果的第一条记录开始获取数据
+        // 如果 page = 2 那么 offset = 30 就是 30+1 条往下查询
+        int offset = (page - 1) * PAGE_SIZE;
+        List<UserLookDataDTO> userLookDataDTOS;
+        int totalUsers;
+    
         if (keyword.equals("null") && searchOption.equals("null") && searchType.equals("null")
-        || keyword.equals("null") && !searchOption.equals("null") && !searchType.equals("null")) {
-            // 计算偏移量，用于数据库查询时的分页
-            int offset = (page - 1) * PAGE_SIZE;
-    
-            // 获取分页数据，调用userService的getUserLookDataPaged方法，传入偏移量和每页条目数量
-            List<UserLookDataDTO> userLookDataDTOS = userService.getUserLookDataPaged(offset, PAGE_SIZE);
-    
+                || keyword.equals("null") && !searchOption.equals("null") && !searchType.equals("null")) {
+            // 没有关键字或有搜索条件，获取全部数据或根据条件查询数据
+            userLookDataDTOS = userService.getUserLookDataPaged(offset, PAGE_SIZE);
             // 获取总用户数，用于计算总页数
-            int totalUsers = userService.getTotalUsers();
-    
-            // 计算总页数，使用Math.ceil确保总页数为正整数
-            int totalPages = (int) Math.ceil((double) totalUsers / PAGE_SIZE);
-    
-            // 将分页数据传递到前端，供页面渲染使用
-            model.addAttribute("userLookDataDTOS", userLookDataDTOS);
-            model.addAttribute("currentPage", page);
-            // 下一页
-            model.addAttribute("currentNextPage", page + 1);
-            // 上一页
-            model.addAttribute("currentLastPage", page - 1);
-            model.addAttribute("totalPages", totalPages);
+            totalUsers = userService.getTotalUsers();
+        } else {
+            // 根据关键字查询数据
+            userLookDataDTOS = userService.searchUserLookData(keyword, searchOption, searchType, offset, PAGE_SIZE);
+            // 获取总用户数，用于计算总页数
+            totalUsers = userLookDataDTOS.size();
         }
+    
+        // 计算总页数，使用Math.ceil确保总页数为正整数
+        int totalPages = (int) Math.ceil((double) totalUsers / PAGE_SIZE);
+    
+        // 将分页数据传递到前端，供页面渲染使用
+        model.addAttribute("userLookDataDTOS", userLookDataDTOS);
+        model.addAttribute("currentPage", page);
+        // 下一页
+        model.addAttribute("currentNextPage", page + 1);
+        // 上一页
+        model.addAttribute("currentLastPage", page - 1);
+        model.addAttribute("totalPages", totalPages);
         
-        // 返回视图名，Spring MVC会根据视图名解析并渲染对应的Thymeleaf模板
         return "/admin/user/userData";
     }
 
@@ -81,5 +88,11 @@ public class PictureAdminController {
         model.addAttribute("username",loginSession);
         // 返回后台首页视图
         return "admin/index";
+    }
+    
+    @GetMapping({"/userAdmin","/userAdmin/","/userAdmin/index","/userAdmin/index.html"})
+    public String adminUserHome(Model model,HttpServletRequest request) {
+        // 返回后台首页视图
+        return "user/index";
     }
 }

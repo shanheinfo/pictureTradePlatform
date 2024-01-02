@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shanhe
- * @since 2023-12-05
+ * @since 2023-12-31
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -34,6 +34,11 @@ public class PictureInfo implements Serializable {
      * 图片id
      */
     private Long imgId;
+
+    /**
+     * 图片名
+     */
+    private String imgName;
 
     /**
      * 图片分类id

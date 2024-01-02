@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author shanhe
- * @since 2023-12-05
+ * @since 2023-12-31
  */
 @RestController
 @RequestMapping("/picture-info")

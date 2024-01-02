@@ -83,9 +83,10 @@ CREATE TABLE IF NOT EXISTS `picture_data`(
 CREATE TABLE IF NOT EXISTS `picture_info`(
      `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键Id',
      `img_id` bigint(20) NOT NULL COMMENT '图片id',
+     `img_name` varchar(360) NOT NULL COMMENT '图片名',
      `img_type_id` int(11) NOT NULL COMMENT '图片分类id',
      `img_tag` varchar(90) NOT NULL COMMENT '图片标签id用,分割开',
-     `img_desc` varchar(200) NOT NULL COMMENT '图片描述',
+     `img_desc` varchar(500) NOT NULL COMMENT '图片描述',
      PRIMARY KEY (`id`) USING BTREE,
      UNIQUE (`img_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact COMMENT '图片其他信息表';

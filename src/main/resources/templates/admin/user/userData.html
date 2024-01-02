@@ -17,7 +17,7 @@
     <h2 class="mb-4">用户信息</h2>
 
     <!-- 搜索栏 -->
-    <form method="get">
+    <form method="get" th:action="@{/admin/userData}">
         <div class="mb-3">
             <input type="text" class="form-control" id="searchInput" name="keyword" placeholder="搜索...">
         </div>
@@ -60,12 +60,11 @@
             </tr>
             </thead>
             <tbody>
-            <!-- 遍历后端传递的用户信息列表 -->
             <tr th:each="user: ${userLookDataDTOS}">
                 <td th:text="${user.userId}"></td>
                 <td th:text="${user.userName}"></td>
-                <td th:text="${user.userEmail}"></td>
-                <td th:text="${user.userMoney}"></td>
+                <td th:text="${user.userMail}"></td>
+                <td th:text="${user.moneyData}"></td>
                 <td th:text="${user.userStatus ? '是' : '否'}"></td>
                 <td>
                     <button class="btn btn-info btn-sm">查看详情</button>
@@ -88,8 +87,9 @@
 
             <!-- 循环生成分页链接 -->
 <!--            #numbers.sequence(1, totalPages)：这是Thymeleaf表达式，使用了#numbers.sequence工具。它生成一个整数序列，从1开始，一直到totalPages结束 -->
+            <!-- 循环生成分页链接 -->
             <li class="page-item" th:each="page: ${#numbers.sequence(1, totalPages)}">
-                <a class="page-link" th:href="@{'/admin/userData?page=' + ${page} + '&ifSearch=' + ${ifSearch}}" th:text="${page}"></a>
+                <a class="page-link" th:href="@{'/admin/userData?page=' + ${page} + '&keyword=' + ${keyword} + '&searchOption=' + ${searchOption} + '&searchType=' + ${searchType}}" th:text="${page}"></a>
             </li>
 
 

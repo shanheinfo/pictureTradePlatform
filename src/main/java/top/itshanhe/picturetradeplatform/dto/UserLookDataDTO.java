@@ -23,4 +23,6 @@ public class UserLookDataDTO {
     private String userEmail;
     private BigDecimal userMoney;
     private boolean userStatus;
+    private String userMail;
+    private BigDecimal moneyData;
 }

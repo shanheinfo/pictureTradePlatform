@@ -1,7 +1,10 @@
 package top.itshanhe.picturetradeplatform.service;
 
+import top.itshanhe.picturetradeplatform.dto.PictureDataDTO;
 import top.itshanhe.picturetradeplatform.entity.PictureData;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-12-05
  */
 public interface IPictureDataService extends IService<PictureData> {
-
+    
+    List<PictureDataDTO> getPictureDataPaged(int offset, int pageSize);
+    
+    List<PictureDataDTO> searchPictureData(String keyword, String searchOption, String searchType, int minPrice, int maxPrice, int offset, int pageSize, int i, int size);
+    
+    int getTotalPictures();
 }

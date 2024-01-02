@@ -1,6 +1,7 @@
 package top.itshanhe.picturetradeplatform.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import top.itshanhe.picturetradeplatform.dto.UserLookDataDTO;
 import top.itshanhe.picturetradeplatform.entity.PictureUser;
@@ -73,27 +74,16 @@ public class PictureUserServiceImpl extends ServiceImpl<PictureUserMapper, Pictu
     }
     
     @Override
-    /**
-     * 获取分页的用户数据，转换为 UserLookDataDTO 对象列表
-     *
-     * @param offset   查询的偏移量
-     * @param pageSize 每页的数据量
-     * @return 包含转换后的 UserLookDataDTO 对象的列表
-     */
     public List<UserLookDataDTO> getUserLookDataPaged(int offset, int pageSize) {
-        // 使用 MyBatis-Plus 提供的 page 方法进行分页查询，构建 Page 对象
+        // 执行分页查询，计算页码（offset / pageSize + 1）并指定每页显示的记录数
+        // offset 为开始查询页码， pageSize 为 每次显示多少页 初始偏移量是 0 那么就要+1 变成第一页
+        // 假设查询第一页 （初始） 0 / 30 +1 = 1
+        //  假设查询第二页  30 / 30 +1 = 2
         Page<PictureUser> page = page(new Page<>(offset / pageSize + 1, pageSize));
-        
-        // 从 Page 对象中获取分页查询的结果列表
+        // 获取记录
         List<PictureUser> userList = page.getRecords();
-    
-        // 将查询结果列表转换为流，并使用 map 操作将每个 PictureUser 转换为相应的 UserLookDataDTO 对象
-        List<UserLookDataDTO> userLookDataList = userList.stream()
-                .map(this::convertToDTO) // 使用 convertToDTO 方法将 PictureUser 转换为 UserLookDataDTO
-                .collect(Collectors.toList()); // 将转换后的结果收集到一个新的 List 中
-    
-        // 返回包含转换后的 UserLookDataDTO 对象的列表
-        return userLookDataList;
+        // 转换需要字段给dto
+        return convertToDTOList(userList);
     }
     
     private UserLookDataDTO convertToDTO(PictureUser pictureUser) {
@@ -103,7 +93,35 @@ public class PictureUserServiceImpl extends ServiceImpl<PictureUserMapper, Pictu
         userLookDataDTO.setUserEmail(pictureUser.getUserMail());
         userLookDataDTO.setUserMoney(pictureUser.getMoneyData());
         userLookDataDTO.setUserStatus(pictureUser.getUserStatus());
-        
         return userLookDataDTO;
     }
+    
+    private List<UserLookDataDTO> convertToDTOList(List<PictureUser> userList) {
+        return userList.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+    
+    @Override
+    public List<UserLookDataDTO> searchUserLookData(String keyword, String searchOption, String searchType, int offset, int pageSize) {
+        // 使用 MyBatis-Plus 提供的 QueryWrapper 进行条件查询
+        QueryWrapper<PictureUser> queryWrapper = new QueryWrapper<>();
+        // 根据 searchOption 判断搜索的字段
+        if ("userId".equals(searchOption)) {
+            queryWrapper.like("user_id", keyword);
+        } else if ("username".equals(searchOption)) {
+            queryWrapper.like("user_name", keyword);
+        } else if ("email".equals(searchOption)) {
+            queryWrapper.like("user_mail", keyword);
+        }
+        // 根据 searchType 判断搜索类型
+        if ("twoSearch".equals(searchType)) {
+            queryWrapper.eq("user_name", keyword);
+        }
+        // 分页处理
+        Page<PictureUser> page = page(new Page<>(offset / pageSize + 1, pageSize), queryWrapper);
+        List<PictureUser> userList = page.getRecords();
+        return convertToDTOList(userList);
+    }
+    
 }
