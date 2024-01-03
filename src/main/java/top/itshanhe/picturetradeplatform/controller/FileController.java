@@ -1,5 +1,6 @@
 package top.itshanhe.picturetradeplatform.controller;
 
+import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +15,10 @@ import org.springframework.web.servlet.resource.ResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
 import top.itshanhe.picturetradeplatform.dto.CategoryArrayDTO;
 import top.itshanhe.picturetradeplatform.dto.CategoryDTO;
+import top.itshanhe.picturetradeplatform.dto.UserDTO;
 import top.itshanhe.picturetradeplatform.service.*;
 import top.itshanhe.picturetradeplatform.util.ImageUtils;
+import top.itshanhe.picturetradeplatform.util.UserHolder;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
@@ -24,10 +27,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -107,9 +113,22 @@ class FileController {
             // 获取临时文件路径
             File tempFile = targetPath.toFile();
             // uid 唯一id
-            String uid = IdUtil.objectId();
+            Snowflake snowflake = IdUtil.getSnowflake(1, 1);
+            long id = snowflake.nextId();
             // 插入地址
-            iPictureFileService.insertFileAddr(uid,tempFile);
+            iPictureFileService.insertFileAddr(id,tempFile);
+            UserDTO userData = UserHolder.getUser();
+            // 获取当前时间
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            // 定义日期时间格式
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            // 格式化日期时间
+            String formattedDateTime = currentDateTime.format(formatter);
+            // 插入图片内容 fixme IdUtil.objectId() 第一个参数是设计错误，已经废弃，但是还是需要填充值
+            // 截取后两位小数
+            money = money.setScale(2, RoundingMode.HALF_DOWN);
+            iPictureDataService.insertFileData(IdUtil.objectId(),id,userData.getUserId(),money,copyKey,formattedDateTime);
+            // 图片其他信息
             model.addAttribute("message", fileName);
             return "/user/admin/uploadShow";
         } catch (IOException e) {

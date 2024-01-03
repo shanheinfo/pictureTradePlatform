@@ -4,6 +4,7 @@ import top.itshanhe.picturetradeplatform.dto.PictureDataDTO;
 import top.itshanhe.picturetradeplatform.entity.PictureData;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,4 +22,6 @@ public interface IPictureDataService extends IService<PictureData> {
     List<PictureDataDTO> searchPictureData(String keyword, String searchOption, String searchType, int minPrice, int maxPrice, int offset, int pageSize, int i, int size);
     
     int getTotalPictures();
+    
+    void insertFileData(String objectId, long id, String userId, BigDecimal money, Boolean copyKey, String formattedDateTime);
 }

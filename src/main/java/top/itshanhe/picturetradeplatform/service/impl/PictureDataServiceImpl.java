@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import top.itshanhe.picturetradeplatform.service.IPictureInfoService;
 import top.itshanhe.picturetradeplatform.service.IPictureUserService;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,10 +82,25 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
         return count();
     }
     
+    @Override
+    public void insertFileData(String objectId, long id, String userId, BigDecimal money, Boolean copyKey, String formattedDateTime) {
+        // 创建PictureData对象
+        PictureData pictureData = new PictureData();
+    
+        // 设置对象的各个属性值
+        pictureData.setImgIndex(objectId);
+        pictureData.setImgId(id);
+        pictureData.setUserId(userId);
+        pictureData.setImgMoney(money);
+        pictureData.setImgKey(copyKey);
+        pictureData.setImgCreateTime(LocalDateTime.parse(formattedDateTime));
+    }
+    
     private PictureDataDTO convertToDTO(PictureData pictureData) {
         PictureDataDTO pictureDataDTO = new PictureDataDTO();
         pictureDataDTO.setId(pictureData.getId());
-        pictureDataDTO.setImgIndex(pictureData.getImgIndex());
+        // fixme 废弃了但是没办法删除
+//        pictureDataDTO.setImgIndex(pictureData.getImgIndex());
         pictureDataDTO.setUserId(pictureData.getUserId());
         pictureDataDTO.setImgMoney(pictureData.getImgMoney());
         

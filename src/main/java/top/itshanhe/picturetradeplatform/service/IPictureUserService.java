@@ -1,5 +1,6 @@
 package top.itshanhe.picturetradeplatform.service;
 
+import top.itshanhe.picturetradeplatform.dto.UserDTO;
 import top.itshanhe.picturetradeplatform.dto.UserLookDataDTO;
 import top.itshanhe.picturetradeplatform.entity.PictureUser;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -25,4 +26,6 @@ public interface IPictureUserService extends IService<PictureUser> {
     List<UserLookDataDTO> getUserLookDataPaged(int offset, int pageSize);
     
     List<UserLookDataDTO> searchUserLookData(String keyword, String searchOption, String searchType, int offset, int pageSize);
+    
+    UserDTO getNameUserData(String loginSession);
 }

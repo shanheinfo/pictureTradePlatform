@@ -3,6 +3,7 @@ package top.itshanhe.picturetradeplatform.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import top.itshanhe.picturetradeplatform.dto.UserDTO;
 import top.itshanhe.picturetradeplatform.dto.UserLookDataDTO;
 import top.itshanhe.picturetradeplatform.entity.PictureUser;
 import top.itshanhe.picturetradeplatform.mapper.PictureUserMapper;
@@ -122,6 +123,16 @@ public class PictureUserServiceImpl extends ServiceImpl<PictureUserMapper, Pictu
         Page<PictureUser> page = page(new Page<>(offset / pageSize + 1, pageSize), queryWrapper);
         List<PictureUser> userList = page.getRecords();
         return convertToDTOList(userList);
+    }
+    
+    @Override
+    public UserDTO getNameUserData(String loginSession) {
+        PictureUser pictureUser = query().eq("user_name",loginSession).one();
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(pictureUser.getUserName());
+        userDTO.setUserId(pictureUser.getUserId());
+        userDTO.setUserMail(pictureUser.getUserMail());
+        return userDTO;
     }
     
 }

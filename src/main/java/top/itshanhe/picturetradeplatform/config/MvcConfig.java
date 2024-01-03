@@ -8,6 +8,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import top.itshanhe.picturetradeplatform.interceptor.HomeInterceptor;
+import top.itshanhe.picturetradeplatform.service.impl.PictureAdminServiceImpl;
+import top.itshanhe.picturetradeplatform.service.impl.PictureUserServiceImpl;
 
 import java.util.concurrent.TimeUnit;
 
@@ -47,10 +49,10 @@ public class MvcConfig implements WebMvcConfigurer {
 //        registry.addResourceHandler("/uploads/**").addResourceLocations("file:"+winPath);
     }
     
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        // 添加一个拦截器，拦截以/admin为前缀的url路径（后台登陆拦截）
-//        registry.addInterceptor(new HomeInterceptor())
-//                .addPathPatterns("*")
-//                .excludePathPatterns("/admin/**");
-//    }
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 添加一个拦截器，拦截以/admin为前缀的url路径（后台登陆拦截）
+        registry.addInterceptor(new HomeInterceptor(new PictureAdminServiceImpl(),new PictureUserServiceImpl()))
+                .addPathPatterns("*")
+                .excludePathPatterns("/admin/**");
+    }
 }
