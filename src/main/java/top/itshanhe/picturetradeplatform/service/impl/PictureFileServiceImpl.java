@@ -6,6 +6,8 @@ import top.itshanhe.picturetradeplatform.service.IPictureFileService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+
 /**
  * <p>
  * 图片表 服务实现类
@@ -16,5 +18,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PictureFileServiceImpl extends ServiceImpl<PictureFileMapper, PictureFile> implements IPictureFileService {
-
+    
+    @Override
+    public void insertFileAddr(String uid, File tempFile) {
+    
+    }
 }

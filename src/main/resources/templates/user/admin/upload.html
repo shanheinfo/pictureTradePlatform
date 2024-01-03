@@ -18,38 +18,38 @@
     <form th:action="@{/userAdmin/upload}" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="fileInput" class="form-label">选择文件</label>
-            <!-- 使用 Bootstrap File Input 插件创建文件上传组件 -->
-            <input type="file" class="form-control" id="fileInput" name="file">
+            <input type="file"  class="form-control" accept=".jpg, .jpeg, .png" max="10485760" name="file" id="fileInput" required>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">图片名称</label>
-                <input type="text" class="form-control" id="exampleInputEmail1">
+                <input type="text" class="form-control" name="pictureName" id="exampleInputEmail1" required>
             </div>
             <div class="form-text">图片分类</div>
-            <select class="form-select" aria-label="Default select example">
+            <select class="form-select" aria-label="Default select example" required>
                 <option th:each="category : ${categoryDTOS.categoryDTOS}" th:value="${category.categoryKeyId}" th:text="${category.categoryName}"></option>
             </select>
 
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                <input class="form-check-input" name="copyKey" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                 <label class="form-check-label" for="flexSwitchCheckDefault">是否是唯一版权</label>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">只保留两位小数</span>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <input type="text" name="money" class="form-control" aria-label="Amount (to the nearest dollar)" required>
                 <span class="input-group-text">￥</span>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default">关键词用英文,分割</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <input type="text" class="form-control" name="keywords" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
             </div>
 
             <div class="input-group">
                 <span class="input-group-text">图片描述</span>
-                <textarea class="form-control" aria-label="With textarea"></textarea>
+                <textarea class="form-control" name="textareaData" aria-label="With textarea" required></textarea>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">上传文件</button>
     </form>
+    <p th:text="${error}"></p>
 </div>
 
 </body>

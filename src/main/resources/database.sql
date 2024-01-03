@@ -66,7 +66,6 @@ CREATE TABLE IF NOT EXISTS `picture_file`(
 #----------------------
 CREATE TABLE IF NOT EXISTS `picture_data`(
         `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键Id',
-        `img_index` varchar(90) NOT NULL COMMENT '图片索引id',
         `img_id` bigint(20) UNSIGNED NOT NULL COMMENT '图片id',
         `user_id` varchar(90) NOT NULL COMMENT '发布图片的用户id',
         `img_money` decimal(12,2) default '0.00' NULL COMMENT '图片价格',
@@ -74,8 +73,7 @@ CREATE TABLE IF NOT EXISTS `picture_data`(
         `img_buy_count` int(11) default 0 NULL COMMENT '购买次数',
         `img_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '上传时间',
         PRIMARY KEY (`id`) USING BTREE,
-        UNIQUE KEY `user_img_id` (`img_id`,`user_id`),
-        UNIQUE (`img_index`)
+        UNIQUE KEY `user_img_id` (`img_id`,`user_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact COMMENT '图片表';
 
 #----------------------
@@ -125,9 +123,7 @@ CREATE TABLE IF NOT EXISTS `picture_tag` (
 CREATE TABLE IF NOT EXISTS `picture_tag_relation` (
       `img_id` bigint(20) UNSIGNED NOT NULL COMMENT '图片id',
       `tag_id` bigint(20) UNSIGNED NOT NULL COMMENT '标签id',
-      PRIMARY KEY (`img_id`, `tag_id`) USING BTREE,
-      FOREIGN KEY (`img_id`) REFERENCES `picture_info` (`img_id`) ON DELETE CASCADE,
-      FOREIGN KEY (`tag_id`) REFERENCES `picture_tag` (`tag_id`) ON DELETE CASCADE
+      PRIMARY KEY (`img_id`, `tag_id`) USING BTREE
 ) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=Compact COMMENT '图片标签关联表';
 
 
