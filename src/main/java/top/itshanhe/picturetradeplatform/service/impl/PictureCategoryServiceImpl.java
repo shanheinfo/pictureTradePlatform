@@ -34,6 +34,12 @@ public class PictureCategoryServiceImpl extends ServiceImpl<PictureCategoryMappe
     
         return categoryDTOList;
     }
+    
+    @Override
+    public List<PictureCategory> selectPictureCategoryAll() {
+        return list();
+    }
+    
     private CategoryDTO convertToDTO(PictureCategory pictureCategory) {
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setCategoryId(pictureCategory.getCategoryId());
@@ -42,4 +48,6 @@ public class PictureCategoryServiceImpl extends ServiceImpl<PictureCategoryMappe
         
         return categoryDTO;
     }
+    
+    
 }

@@ -20,10 +20,10 @@ import java.io.File;
 public class PictureFileServiceImpl extends ServiceImpl<PictureFileMapper, PictureFile> implements IPictureFileService {
     
     @Override
-    public void insertFileAddr(Long uid, File tempFile) {
+    public void insertFileAddr(Long uid, String tempFile) {
         PictureFile pictureFile = new PictureFile();
         pictureFile.setImgId(uid);
-        pictureFile.setImgAddr(tempFile.getPath());
+        pictureFile.setImgAddr(tempFile);
         
         baseMapper.insert(pictureFile);
     }

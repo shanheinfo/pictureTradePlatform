@@ -6,7 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import top.itshanhe.picturetradeplatform.dto.PictureImg;
 import top.itshanhe.picturetradeplatform.dto.PictureNav;
+import top.itshanhe.picturetradeplatform.service.IPictureDataService;
+import top.itshanhe.picturetradeplatform.service.IPictureTagService;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,26 +25,15 @@ import java.util.List;
  */
 @Controller
 public class PictureHomeController {
+    @Resource
+    private IPictureDataService pictureDataService;
+    @Resource
+    private IPictureTagService pictureTagService;
     @GetMapping({"/index", "/", "/index.html"})
-    public String indexHome(Model model) {
-        List<PictureNav> strings = new ArrayList<>();
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
-        strings.add(new PictureNav("山河","div/box.html"));
+    public String indexHome(Model model,HttpServletRequest request) {
+        String defaultDomain = request.getServerName() + ":" + request.getServerPort();
+        List<PictureNav> strings = pictureTagService.selectTagAll(defaultDomain);
+        
         imgHome(model);
         model.addAttribute("pictureNav",strings);
         return "/index";

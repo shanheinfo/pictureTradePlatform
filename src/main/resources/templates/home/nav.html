@@ -9,7 +9,7 @@
 <nav class="navbar navbar-expand-sm bg-light" th:fragment="navigation" style="margin-top: 90px;margin-bottom: 20px">
     <ul class="navbar-nav flex-row flex-wrap">
         <li class="nav-item" th:each="list : ${pictureNav}">
-            <a class="btn btn-outline-primary m-1" th:href="@{${list.navUrl}}" th:text="${list.navTitle}">山河</a>
+            <a class="btn btn-outline-primary m-1" th:href="@{${list.dataUrl}}" th:text="${list.navTitle}">山河</a>
         </li>
     </ul>
 </nav>

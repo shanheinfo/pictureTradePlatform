@@ -1,8 +1,10 @@
 package top.itshanhe.picturetradeplatform.service;
 
 import top.itshanhe.picturetradeplatform.dto.CategoryDTO;
+import top.itshanhe.picturetradeplatform.dto.PictureNav;
 import top.itshanhe.picturetradeplatform.entity.PictureCategory;
 import com.baomidou.mybatisplus.extension.service.IService;
+import top.itshanhe.picturetradeplatform.entity.PictureTag;
 
 import java.util.List;
 
@@ -17,4 +19,6 @@ import java.util.List;
 public interface IPictureCategoryService extends IService<PictureCategory> {
     
     List<CategoryDTO> selectAllCatgory();
+    
+    List<PictureCategory> selectPictureCategoryAll();
 }

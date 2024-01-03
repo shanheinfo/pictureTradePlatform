@@ -100,6 +100,12 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
         baseMapper.insert(pictureData);
     }
     
+    @Override
+    public LocalDateTime getImgTime(Long imgId) {
+        PictureData pictureData = query().eq("img_id",imgId).one();
+        return pictureData.getImgCreateTime();
+    }
+    
     private PictureDataDTO convertToDTO(PictureData pictureData) {
         PictureDataDTO pictureDataDTO = new PictureDataDTO();
         pictureDataDTO.setId(pictureData.getId());

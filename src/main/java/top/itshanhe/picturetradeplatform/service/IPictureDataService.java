@@ -5,6 +5,7 @@ import top.itshanhe.picturetradeplatform.entity.PictureData;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -24,4 +25,6 @@ public interface IPictureDataService extends IService<PictureData> {
     int getTotalPictures();
     
     void insertFileData(String objectId, long id, String userId, BigDecimal money, Boolean copyKey, String formattedDateTime);
+    
+    LocalDateTime getImgTime(Long imgId);
 }

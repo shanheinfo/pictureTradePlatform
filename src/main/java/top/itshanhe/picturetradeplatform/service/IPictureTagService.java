@@ -1,7 +1,10 @@
 package top.itshanhe.picturetradeplatform.service;
 
+import top.itshanhe.picturetradeplatform.dto.PictureNav;
 import top.itshanhe.picturetradeplatform.entity.PictureTag;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,4 +19,6 @@ public interface IPictureTagService extends IService<PictureTag> {
     boolean selectTag(String trim);
     
     Long getTagId(String trim);
+    
+    List<PictureNav> selectTagAll(String defaultDomain);
 }

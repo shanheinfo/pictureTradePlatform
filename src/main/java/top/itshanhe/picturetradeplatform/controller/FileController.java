@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -37,6 +38,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -83,7 +85,7 @@ class FileController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam("pictureName") String pictureName,
                                    @RequestParam("categoryKeyId") Integer categoryKeyId,
-                                   @RequestParam("copyKey") Boolean copyKey,
+                                   @RequestParam(name = "copyKey" , defaultValue = "0") Boolean copyKey,
                                    @RequestParam("money") BigDecimal money,
                                    @RequestParam("keywords") String keywords,
                                    @RequestParam("textareaData") String textareaData,
@@ -91,13 +93,13 @@ class FileController {
         try {
             // 检查文件大小
             if (file.getSize() > 10 * 1024 * 1024) {
-                model.addAttribute("error", "文件大小不能超过10MB");
+                model.addAttribute("message", "文件大小不能超过10MB");
                 return "/user/admin/upload";
             }
     
             // 检查文件类型
             if (!file.getContentType().startsWith("image/")) {
-                model.addAttribute("error", "请选择图片文件");
+                model.addAttribute("message", "请选择图片文件");
                 return "/user/admin/upload";
             }
             // 获取当前日期
@@ -122,7 +124,7 @@ class FileController {
             Snowflake snowflake = IdUtil.getSnowflake(1, 1);
             long id = snowflake.nextId();
             // 插入地址
-            iPictureFileService.insertFileAddr(id,tempFile);
+            iPictureFileService.insertFileAddr(id,fileName);
             // 获取当前时间
             LocalDateTime currentDateTime = LocalDateTime.now();
             // 定义日期时间格式
@@ -161,11 +163,13 @@ class FileController {
                 }
                 
             }
-            model.addAttribute("message", fileName);
-            return "/user/admin/uploadShow";
+            model.addAttribute("message", "上传图片成功！");
+            CategoryArrayDTO categoryArrayDTO = new CategoryArrayDTO(iPictureCategoryService.selectAllCatgory());
+            model.addAttribute("categoryDTOS", categoryArrayDTO);
+            return "/user/admin/upload";
         } catch (IOException e) {
             e.printStackTrace();
-            model.addAttribute("error", "文件上传失败: " + e.getMessage());
+            model.addAttribute("message", "文件上传失败: " + e.getMessage());
             return "/user/admin/upload";
         }
     }
@@ -177,26 +181,44 @@ class FileController {
     }
     
     @GetMapping("/download")
-    public void download(String name, HttpServletResponse response) throws Exception {
-        // 获取当前日期
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String currentDate = dateFormat.format(new Date());
-        // 读取文件
-        FileInputStream fileInputStream = new FileInputStream(uploadDir +currentDate+"\\" + name);
-        // 文件写回浏览器
-        ServletOutputStream outputStream = response.getOutputStream();
-        
-        response.setContentType("image/jpeg");
-        
-        int len;
-        byte[] bytes = new byte[1024];
-        while (-1 != (len = fileInputStream.read(bytes))) {
-            outputStream.write(bytes, 0, len);
-            outputStream.flush();
+    public void download(@RequestParam("uid") Long imgId,
+                         @RequestParam("imgName") String name, HttpServletResponse response) throws Exception {
+        LocalDateTime date = iPictureDataService.getImgTime(imgId);
+        if (date == null) {
+            response.sendRedirect("/login");
+            return;
         }
-        // 关流
-        outputStream.close();
-        fileInputStream.close();
+
+        // 将 LocalDateTime 转换为 Date
+        Date utilDate = Date.from(date.atZone(ZoneId.systemDefault()).toInstant());
+
+        // 使用 SimpleDateFormat 格式化 Date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = dateFormat.format(utilDate);
+        // 构建文件路径
+        String filePath = uploadDir + currentDate + "\\" + name;
+        // 读取文件
+        try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
+            // 文件写回浏览器
+            ServletOutputStream outputStream = response.getOutputStream();
+    
+            response.setContentType("image/jpeg");
+    
+            int len;
+            byte[] bytes = new byte[1024];
+            while (-1 != (len = fileInputStream.read(bytes))) {
+                outputStream.write(bytes, 0, len);
+                outputStream.flush();
+            }
+            // 关流
+            outputStream.close();
+            fileInputStream.close();
+        } catch (FileNotFoundException e) {
+            // 文件不存在，重定向到错误页面或其他页面
+            response.sendRedirect("/your-redirect-url");
+        }
+
+       
     }
     
 }
