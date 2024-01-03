@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS `picture_order_bill_recharge`;
 DROP TABLE IF EXISTS `picture_order_bill_credits`;
 DROP TABLE IF EXISTS `picture_order_bill_buy`;
 DROP TABLE IF EXISTS `picture_auction`;
+DROP TABLE IF EXISTS `picture_tag_relation`;
 
 #----------------------
 # 用户表
@@ -80,16 +81,14 @@ CREATE TABLE IF NOT EXISTS `picture_data`(
 #----------------------
 # 图片其他信息表
 #----------------------
-CREATE TABLE IF NOT EXISTS `picture_info`(
-     `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键Id',
-     `img_id` bigint(20) NOT NULL COMMENT '图片id',
-     `img_name` varchar(360) NOT NULL COMMENT '图片名',
-     `img_type_id` int(11) NOT NULL COMMENT '图片分类id',
-     `img_tag` varchar(90) NOT NULL COMMENT '图片标签id用,分割开',
-     `img_desc` varchar(500) NOT NULL COMMENT '图片描述',
-     PRIMARY KEY (`id`) USING BTREE,
-     UNIQUE (`img_id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact COMMENT '图片其他信息表';
+CREATE TABLE IF NOT EXISTS `picture_info` (
+      `img_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '图片id',
+      `img_name` varchar(360) NOT NULL COMMENT '图片名',
+      `img_type_id` int(11) NOT NULL COMMENT '图片分类id',
+      `img_desc` varchar(500) NOT NULL COMMENT '图片描述',
+      PRIMARY KEY (`img_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=Compact COMMENT '图片其他信息表';
+
 
 
 #----------------------
@@ -107,19 +106,30 @@ CREATE TABLE IF NOT EXISTS `picture_category`(
      UNIQUE (`category_key_id`)
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact COMMENT '分类板块表';
 
-INSERT INTO picture_category VALUES(1,'aaaaaaaaaaaaa',1,'默认','default','default,默认','默认分类');
+INSERT INTO picture_category VALUES(1,'aaaaaaaaaaaaa',1,'默认分类','default','default,默认','默认分类');
+INSERT INTO picture_category VALUES(2,'aaaaaaaaaaaa6',2,'默认默认分类','default','default,默认','默认分类');
+INSERT INTO picture_category VALUES(3,'aaaaaaaaaaaa5',3,'默认默认分类','default','default,默认','默认分类');
 
 #----------------------
 # 标签表
 #----------------------
-CREATE TABLE IF NOT EXISTS `picture_tag`(
-       `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键Id',
-       `tag_key_id` varchar(90) NOT NULL COMMENT '标签索引id',
-       `tag_id` bigint(20) UNSIGNED NOT NULL COMMENT '标签id',
-       `tag_name` varchar(255) NOT NULL COMMENT '标签名称',
-       PRIMARY KEY (`id`) USING BTREE,
-       UNIQUE (`tag_key_id`)
-)ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact COMMENT '标签表';
+CREATE TABLE IF NOT EXISTS `picture_tag` (
+     `tag_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '标签id',
+     `tag_name` varchar(255) NOT NULL COMMENT '标签名称',
+     PRIMARY KEY (`tag_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=Compact COMMENT '标签表';
+
+#----------------------
+# 图片标签关联表
+#----------------------
+CREATE TABLE IF NOT EXISTS `picture_tag_relation` (
+      `img_id` bigint(20) UNSIGNED NOT NULL COMMENT '图片id',
+      `tag_id` bigint(20) UNSIGNED NOT NULL COMMENT '标签id',
+      PRIMARY KEY (`img_id`, `tag_id`) USING BTREE,
+      FOREIGN KEY (`img_id`) REFERENCES `picture_info` (`img_id`) ON DELETE CASCADE,
+      FOREIGN KEY (`tag_id`) REFERENCES `picture_tag` (`tag_id`) ON DELETE CASCADE
+) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=Compact COMMENT '图片标签关联表';
+
 
 #----------------------
 # 充值流水表

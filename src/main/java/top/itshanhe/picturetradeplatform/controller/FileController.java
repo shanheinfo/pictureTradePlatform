@@ -11,8 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.resource.CachingResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
+import top.itshanhe.picturetradeplatform.dto.CategoryArrayDTO;
+import top.itshanhe.picturetradeplatform.dto.CategoryDTO;
+import top.itshanhe.picturetradeplatform.service.IPictureCategoryService;
 import top.itshanhe.picturetradeplatform.util.ImageUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -23,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -38,9 +43,13 @@ import java.util.Date;
 class FileController {
     @Value("${file.upload.path}")
     private String uploadDir;
+    @Resource
+    private IPictureCategoryService iPictureCategoryService;
     
     @GetMapping("/uploadData")
-    public String showUploadForm() {
+    public String showUploadForm(Model model) {
+        CategoryArrayDTO categoryArrayDTO = new CategoryArrayDTO(iPictureCategoryService.selectAllCatgory());
+        model.addAttribute("categoryDTOS", categoryArrayDTO);
         return "/user/admin/upload";
     }
     
@@ -68,22 +77,6 @@ class FileController {
             // 获取临时文件路径
             File tempFile = targetPath.toFile();
             
-            
-//            // 延迟删除
-//            tempFile.deleteOnExit();
-
-//            File imageFile = new File("D:\\idea_java_projects\\pictureTradePlatform\\uploads\\2023-12-22\\4776e59f-faa8-40df-b5ae-2d5bc6f66c4d.JPG");
-//
-//            try {
-//                String base64Image = ImageUtils.encodeImageToBase64(imageFile);
-//                model.addAttribute("base64Image", base64Image);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                // handle exception
-//            }
-//
-//            return "/admin/user/imageO";
-//
             model.addAttribute("message", fileName);
         } catch (IOException e) {
             e.printStackTrace();
