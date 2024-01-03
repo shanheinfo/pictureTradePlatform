@@ -53,7 +53,6 @@ import java.util.List;
  */
 @Slf4j
 @Controller
-@RequestMapping("/userAdmin")
 class FileController {
     @Value("${file.upload.path}")
     private String uploadDir;
@@ -72,7 +71,7 @@ class FileController {
     @Resource
     private IPictureUserService iPictureUserService;
     
-    @GetMapping("/uploadData")
+    @GetMapping("/userAdmin/uploadData")
     public String showUploadForm(Model model) {
         CategoryArrayDTO categoryArrayDTO = new CategoryArrayDTO(iPictureCategoryService.selectAllCatgory());
         model.addAttribute("categoryDTOS", categoryArrayDTO);
@@ -81,7 +80,7 @@ class FileController {
     
     
     
-    @PostMapping("/upload")
+    @PostMapping("/userAdmin/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam("pictureName") String pictureName,
                                    @RequestParam("categoryKeyId") Integer categoryKeyId,

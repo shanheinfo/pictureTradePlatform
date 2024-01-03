@@ -3,6 +3,7 @@ package top.itshanhe.picturetradeplatform.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import top.itshanhe.picturetradeplatform.dto.PictureImg;
 import top.itshanhe.picturetradeplatform.dto.PictureNav;
@@ -27,36 +28,24 @@ public class PictureHomeController {
     @Resource
     private IPictureDataService pictureDataService;
     @Resource
-    private IPictureFileService pictureFileService;
-    @Resource
-    private IPictureUserService userService;
-    @Resource
     private IPictureTagService pictureTagService;
+    private static final int PAGE_SIZE = 15;
     @GetMapping({"/index", "/", "/index.html"})
-    public String indexHome(Model model,HttpServletRequest request) {
+    public String indexHome(Model model,HttpServletRequest request,
+                            @RequestParam(defaultValue = "1") int page) {
         String defaultDomain = request.getServerName() + ":" + request.getServerPort();
         List<PictureNav> strings = pictureTagService.selectTagAll(defaultDomain);
-        
-        imgHome(model);
+        // 如果 page = 2 那么 offset = 30 就是 30+1 条往下查询
+        int offset = (page - 1) * PAGE_SIZE;
+        imgHome(model,offset,defaultDomain);
         model.addAttribute("pictureNav",strings);
         return "/index";
     }
 
-    public Model imgHome(Model model) {
-        List<PictureImg> strings = new ArrayList<>();
-        strings.add(new PictureImg(1,"/home/img/6.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/5.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/1.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/3.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/4.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/5.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/6.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/1.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/3.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/3.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/2.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/3.jpg","山河",30.99, LocalDateTime.now()));
-        strings.add(new PictureImg(1,"/home/img/5.jpg","山河",30.99, LocalDateTime.now()));
-        return model.addAttribute("pictureImg",strings);
+    public Model imgHome(Model model,int offset,String defaultDomain) {
+        List<PictureImg> pictureList = pictureDataService.getLatestPictures(offset, PAGE_SIZE,defaultDomain);
+        return model.addAttribute("pictureImg",pictureList);
     }
+    
+    
 }

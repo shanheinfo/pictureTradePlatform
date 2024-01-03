@@ -28,4 +28,6 @@ public interface IPictureUserService extends IService<PictureUser> {
     List<UserLookDataDTO> searchUserLookData(String keyword, String searchOption, String searchType, int offset, int pageSize);
     
     UserDTO getNameUserData(String loginSession);
+    
+    String getIdByUserName(String userId);
 }

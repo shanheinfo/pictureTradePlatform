@@ -16,4 +16,6 @@ import java.io.File;
 public interface IPictureFileService extends IService<PictureFile> {
     
     void insertFileAddr(Long uid, String tempFile);
+    
+    String getFileUrl(Long imgId);
 }

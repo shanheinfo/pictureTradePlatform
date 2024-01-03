@@ -1,6 +1,7 @@
 package top.itshanhe.picturetradeplatform.service;
 
 import top.itshanhe.picturetradeplatform.dto.PictureDataDTO;
+import top.itshanhe.picturetradeplatform.dto.PictureImg;
 import top.itshanhe.picturetradeplatform.entity.PictureData;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -27,4 +28,6 @@ public interface IPictureDataService extends IService<PictureData> {
     void insertFileData(String objectId, long id, String userId, BigDecimal money, Boolean copyKey, String formattedDateTime);
     
     LocalDateTime getImgTime(Long imgId);
+    
+    List<PictureImg> getLatestPictures(int offset, int pageSize,String defaultDomain);
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -15,17 +16,20 @@ import java.time.LocalDateTime;
  * @date 2023/12/15
  */
 public class PictureImg {
-    private Integer id;
+    private Long id;
     
     private String imgUrl;
     
     private String authorName;
     
-    private Double money;
+    private BigDecimal money;
     
     private LocalDateTime imgTime;
     
-    public PictureImg(Integer id, String imgUrl, String authorName, Double money, LocalDateTime imgTime) {
+    public PictureImg() {
+    }
+    
+    public PictureImg(Long id, String imgUrl, String authorName, BigDecimal money, LocalDateTime imgTime) {
         this.id = id;
         this.imgUrl = imgUrl;
         this.authorName = authorName;
@@ -33,11 +37,11 @@ public class PictureImg {
         this.imgTime = imgTime;
     }
     
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
     
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     
@@ -57,11 +61,11 @@ public class PictureImg {
         this.authorName = authorName;
     }
     
-    public Double getMoney() {
+    public BigDecimal getMoney() {
         return money;
     }
     
-    public void setMoney(Double money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
     }
     

@@ -137,4 +137,10 @@ public class PictureUserServiceImpl extends ServiceImpl<PictureUserMapper, Pictu
         return userDTO;
     }
     
+    @Override
+    public String getIdByUserName(String userId) {
+        PictureUser pictureUser = query().eq("user_id",userId).one();
+        return pictureUser.getUserName();
+    }
+    
 }

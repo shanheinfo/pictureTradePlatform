@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import top.itshanhe.picturetradeplatform.dto.PictureDataDTO;
+import top.itshanhe.picturetradeplatform.dto.PictureImg;
 import top.itshanhe.picturetradeplatform.entity.PictureData;
 import top.itshanhe.picturetradeplatform.entity.PictureInfo;
 import top.itshanhe.picturetradeplatform.entity.PictureUser;
@@ -12,11 +14,12 @@ import top.itshanhe.picturetradeplatform.mapper.PictureDataMapper;
 import top.itshanhe.picturetradeplatform.service.IPictureDataService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import top.itshanhe.picturetradeplatform.service.IPictureFileService;
 import top.itshanhe.picturetradeplatform.service.IPictureInfoService;
 import top.itshanhe.picturetradeplatform.service.IPictureUserService;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -38,6 +41,16 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
     
     @Autowired
     private IPictureUserService pictureUserService;
+    
+    @Resource
+    private IPictureFileService pictureFileService;
+    
+    @Value("${data.domain}")
+    private String Domain;
+
+    
+    
+    
     
     @Override
     public List<PictureDataDTO> getPictureDataPaged(int offset, int pageSize) {
@@ -104,6 +117,30 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
     public LocalDateTime getImgTime(Long imgId) {
         PictureData pictureData = query().eq("img_id",imgId).one();
         return pictureData.getImgCreateTime();
+    }
+    
+    @Override
+    public List<PictureImg> getLatestPictures(int offset, int pageSize, String defaultDomain) {
+        Page<PictureData> page = page(new Page<>(offset / pageSize + 1, pageSize));
+        // 获取记录
+        List<PictureData> userList = page.getRecords();
+        // 转换需要字段给dto
+        return convertToPictureDataList(userList);
+    }
+    private PictureImg convertToPictureDTO(PictureData pictureData) {
+        PictureImg pictureImg = new PictureImg();
+        pictureImg.setId(pictureData.getImgId());
+        pictureImg.setMoney(pictureData.getImgMoney());
+        pictureImg.setImgTime(pictureData.getImgCreateTime());
+        pictureImg.setImgUrl(Domain + "/download?uid=" +pictureData.getImgId()+ "&imgName="+  pictureFileService.getFileUrl(pictureData.getImgId()));
+        pictureImg.setAuthorName(pictureUserService.getIdByUserName(pictureData.getUserId()));
+        return pictureImg;
+    }
+    
+    private List<PictureImg> convertToPictureDataList(List<PictureData> userList) {
+        return userList.stream()
+                .map(this::convertToPictureDTO)
+                .collect(Collectors.toList());
     }
     
     private PictureDataDTO convertToDTO(PictureData pictureData) {

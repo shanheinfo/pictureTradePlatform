@@ -1,6 +1,7 @@
 package top.itshanhe.picturetradeplatform.service.impl;
 
 import top.itshanhe.picturetradeplatform.entity.PictureFile;
+import top.itshanhe.picturetradeplatform.entity.PictureUser;
 import top.itshanhe.picturetradeplatform.mapper.PictureFileMapper;
 import top.itshanhe.picturetradeplatform.service.IPictureFileService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -26,5 +27,11 @@ public class PictureFileServiceImpl extends ServiceImpl<PictureFileMapper, Pictu
         pictureFile.setImgAddr(tempFile);
         
         baseMapper.insert(pictureFile);
+    }
+    
+    @Override
+    public String getFileUrl(Long imgId) {
+        PictureFile pictureFile = query().eq("img_id",imgId).one();
+        return pictureFile.getImgAddr();
     }
 }
