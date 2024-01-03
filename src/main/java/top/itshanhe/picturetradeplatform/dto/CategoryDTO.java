@@ -20,7 +20,7 @@ public class CategoryDTO {
     /**
      * 分类索引id
      */
-    private String categoryKeyId;
+    private Integer categoryId;
     
     /**
      * 分类名称

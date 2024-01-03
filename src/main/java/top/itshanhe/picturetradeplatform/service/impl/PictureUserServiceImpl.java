@@ -3,6 +3,7 @@ package top.itshanhe.picturetradeplatform.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
 import top.itshanhe.picturetradeplatform.dto.UserDTO;
 import top.itshanhe.picturetradeplatform.dto.UserLookDataDTO;
 import top.itshanhe.picturetradeplatform.entity.PictureUser;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
  * @since 2023-12-05
  */
 @Service
+@Slf4j
 public class PictureUserServiceImpl extends ServiceImpl<PictureUserMapper, PictureUser> implements IPictureUserService {
     
     @Override
@@ -127,7 +129,7 @@ public class PictureUserServiceImpl extends ServiceImpl<PictureUserMapper, Pictu
     
     @Override
     public UserDTO getNameUserData(String loginSession) {
-        PictureUser pictureUser = query().eq("user_name",loginSession).one();
+        PictureUser pictureUser = lambdaQuery().eq(PictureUser::getUserName, loginSession).one();
         UserDTO userDTO = new UserDTO();
         userDTO.setUserName(pictureUser.getUserName());
         userDTO.setUserId(pictureUser.getUserId());

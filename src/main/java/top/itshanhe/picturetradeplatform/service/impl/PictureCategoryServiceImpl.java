@@ -36,7 +36,7 @@ public class PictureCategoryServiceImpl extends ServiceImpl<PictureCategoryMappe
     }
     private CategoryDTO convertToDTO(PictureCategory pictureCategory) {
         CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setCategoryKeyId(pictureCategory.getCategoryKeyId());
+        categoryDTO.setCategoryId(pictureCategory.getCategoryId());
         categoryDTO.setCategoryName(pictureCategory.getCategoryName());
         categoryDTO.setCategoryEnglishName(pictureCategory.getCategoryEnglishName());
         

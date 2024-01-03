@@ -16,5 +16,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PictureTagRelationServiceImpl extends ServiceImpl<PictureTagRelationMapper, PictureTagRelation> implements IPictureTagRelationService {
-
+    
+    @Override
+    public void insertTagAndPictureId(long id, Long uid) {
+        PictureTagRelation pictureTagRelation = new PictureTagRelation();
+        pictureTagRelation.setImgId(id);
+        pictureTagRelation.setTagId(uid);
+        baseMapper.insert(pictureTagRelation);
+    }
 }

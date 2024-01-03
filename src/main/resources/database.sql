@@ -35,10 +35,7 @@ CREATE TABLE IF NOT EXISTS `picture_user`(
      PRIMARY KEY (`id`) USING BTREE,
      UNIQUE (`user_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact COMMENT '用户表';
--- 创建前缀索引
-CREATE INDEX mail_index ON picture_user (user_mail(9));
--- 创建前缀索引
-CREATE INDEX name_index ON picture_user (user_name(10));
+
 
 #----------------------
 # 管理员表
@@ -115,8 +112,9 @@ INSERT INTO picture_category VALUES(3,'aaaaaaaaaaaa5',3,'默认默认分类','de
 #----------------------
 CREATE TABLE IF NOT EXISTS `picture_tag` (
      `tag_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '标签id',
-     `tag_name` varchar(255) NOT NULL COMMENT '标签名称',
-     PRIMARY KEY (`tag_id`) USING BTREE
+     `tag_name` varchar(191) NOT NULL COMMENT '标签名称',
+     PRIMARY KEY (`tag_id`) USING BTREE,
+     UNIQUE INDEX `unique_tag_name` (`tag_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=Compact COMMENT '标签表';
 
 #----------------------

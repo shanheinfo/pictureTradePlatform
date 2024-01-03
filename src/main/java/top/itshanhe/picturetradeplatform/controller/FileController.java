@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -13,15 +14,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.resource.CachingResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
+import top.itshanhe.picturetradeplatform.common.Constants;
 import top.itshanhe.picturetradeplatform.dto.CategoryArrayDTO;
 import top.itshanhe.picturetradeplatform.dto.CategoryDTO;
 import top.itshanhe.picturetradeplatform.dto.UserDTO;
+import top.itshanhe.picturetradeplatform.entity.PictureTag;
 import top.itshanhe.picturetradeplatform.service.*;
 import top.itshanhe.picturetradeplatform.util.ImageUtils;
 import top.itshanhe.picturetradeplatform.util.UserHolder;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -63,6 +67,8 @@ class FileController {
     private IPictureDataService iPictureDataService;
     @Resource
     private IPictureFileService iPictureFileService;
+    @Resource
+    private IPictureUserService iPictureUserService;
     
     @GetMapping("/uploadData")
     public String showUploadForm(Model model) {
@@ -74,14 +80,14 @@ class FileController {
     
     
     @PostMapping("/upload")
-    public String handleFileUpload( @RequestParam("file") MultipartFile file,
-                                    @RequestParam("pictureName") String pictureName,
-                                    @RequestParam("categoryKeyId") Long categoryKeyId,
-                                    @RequestParam("copyKey") Boolean copyKey,
-                                    @RequestParam("money") BigDecimal money,
-                                    @RequestParam("keywords") String keywords,
-                                    @RequestParam("textareaData") String textareaData,
-                                    Model model) {
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   @RequestParam("pictureName") String pictureName,
+                                   @RequestParam("categoryKeyId") Integer categoryKeyId,
+                                   @RequestParam("copyKey") Boolean copyKey,
+                                   @RequestParam("money") BigDecimal money,
+                                   @RequestParam("keywords") String keywords,
+                                   @RequestParam("textareaData") String textareaData,
+                                   Model model, HttpServletRequest request) {
         try {
             // 检查文件大小
             if (file.getSize() > 10 * 1024 * 1024) {
@@ -117,18 +123,44 @@ class FileController {
             long id = snowflake.nextId();
             // 插入地址
             iPictureFileService.insertFileAddr(id,tempFile);
-            UserDTO userData = UserHolder.getUser();
             // 获取当前时间
             LocalDateTime currentDateTime = LocalDateTime.now();
             // 定义日期时间格式
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             // 格式化日期时间
             String formattedDateTime = currentDateTime.format(formatter);
-            // 插入图片内容 fixme IdUtil.objectId() 第一个参数是设计错误，已经废弃，但是还是需要填充值
+            // 插入图片内容 fixme IdUtil.objectId() 第一个参数是设计错误，已经废弃，但是还是需要填
+            //  充值
             // 截取后两位小数
-            money = money.setScale(2, RoundingMode.HALF_DOWN);
+            if (money != null && money.scale() > 2) {
+                money = money.setScale(2, RoundingMode.HALF_DOWN);
+            }
+            String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
+            UserDTO userData = iPictureUserService.getNameUserData(loginSession);
             iPictureDataService.insertFileData(IdUtil.objectId(),id,userData.getUserId(),money,copyKey,formattedDateTime);
             // 图片其他信息
+            iPictureInfoService.insertFileInfo(id,pictureName,categoryKeyId,textareaData);
+            // 截取循环处理标签
+            String[] keywordArray = keywords.split(",");
+            for (String keyword : keywordArray) {
+                // 在此处插入标签表
+                // 先判断标签是否存在
+                if (iPictureTagService.selectTag(keyword.trim())) {
+                    // 获取tag id信息
+                    Long Uid = iPictureTagService.getTagId(keyword.trim());
+                    // 插入图片tag信息
+                    iPictureTagRelationService.insertTagAndPictureId(id,Uid);
+                } else {
+                    PictureTag pictureTag = new PictureTag();
+                    pictureTag.setTagName(keyword.trim());
+                    iPictureTagService.save(pictureTag);
+                    // 获取tag id信息
+                    Long Uid = iPictureTagService.getTagId(keyword.trim());
+                    // 插入图片tag信息
+                    iPictureTagRelationService.insertTagAndPictureId(id,Uid);
+                }
+                
+            }
             model.addAttribute("message", fileName);
             return "/user/admin/uploadShow";
         } catch (IOException e) {

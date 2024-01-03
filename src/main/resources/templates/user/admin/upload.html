@@ -24,8 +24,8 @@
                 <input type="text" class="form-control" name="pictureName" id="exampleInputEmail1" required>
             </div>
             <div class="form-text">图片分类</div>
-            <select class="form-select" aria-label="Default select example" required>
-                <option th:each="category : ${categoryDTOS.categoryDTOS}" th:value="${category.categoryKeyId}" th:text="${category.categoryName}"></option>
+            <select class="form-select" name="categoryKeyId"  aria-label="Default select example" required>
+                <option th:each="category : ${categoryDTOS.categoryDTOS}" th:value="${category.categoryId}" th:text="${category.categoryName}"></option>
             </select>
 
             <div class="form-check form-switch">

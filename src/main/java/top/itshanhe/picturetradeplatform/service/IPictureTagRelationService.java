@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-01-03
  */
 public interface IPictureTagRelationService extends IService<PictureTagRelation> {
-
+    
+    void insertTagAndPictureId(long id, Long uid);
 }

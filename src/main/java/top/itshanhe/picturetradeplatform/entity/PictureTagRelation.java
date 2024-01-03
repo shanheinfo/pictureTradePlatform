@@ -1,9 +1,12 @@
 package top.itshanhe.picturetradeplatform.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,6 +22,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+
 @TableName("picture_tag_relation")
 public class PictureTagRelation implements Serializable {
 
@@ -27,12 +31,13 @@ public class PictureTagRelation implements Serializable {
     /**
      * 图片id
      */
-    @TableId(value = "img_id", type = IdType.AUTO)
+    @TableField(value = "img_id")
     private Long imgId;
 
     /**
      * 标签id
      */
+    @TableField(value = "tag_id")
     private Long tagId;
 
 

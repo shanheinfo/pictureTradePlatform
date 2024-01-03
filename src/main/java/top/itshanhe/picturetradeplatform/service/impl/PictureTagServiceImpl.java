@@ -1,5 +1,6 @@
 package top.itshanhe.picturetradeplatform.service.impl;
 
+import top.itshanhe.picturetradeplatform.entity.PictureAdmin;
 import top.itshanhe.picturetradeplatform.entity.PictureTag;
 import top.itshanhe.picturetradeplatform.mapper.PictureTagMapper;
 import top.itshanhe.picturetradeplatform.service.IPictureTagService;
@@ -16,5 +17,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PictureTagServiceImpl extends ServiceImpl<PictureTagMapper, PictureTag> implements IPictureTagService {
-
+    
+    @Override
+    public boolean selectTag(String trim) {
+    
+        PictureTag pictureTag = query().eq("tag_name",trim).one();
+        
+        return pictureTag != null;
+    }
+    
+    @Override
+    public Long getTagId(String trim) {
+        PictureTag pictureTag = query().eq("tag_name",trim).one();
+        return pictureTag.getTagId();
+    }
 }

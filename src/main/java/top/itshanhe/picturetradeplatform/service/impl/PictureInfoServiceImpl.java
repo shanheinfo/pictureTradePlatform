@@ -1,5 +1,6 @@
 package top.itshanhe.picturetradeplatform.service.impl;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import top.itshanhe.picturetradeplatform.entity.PictureInfo;
 import top.itshanhe.picturetradeplatform.mapper.PictureInfoMapper;
 import top.itshanhe.picturetradeplatform.service.IPictureInfoService;
@@ -16,5 +17,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PictureInfoServiceImpl extends ServiceImpl<PictureInfoMapper, PictureInfo> implements IPictureInfoService {
-
+    
+    @Override
+    public void insertFileInfo(long id, String pictureName, Integer categoryKeyId, String textareaData) {
+        PictureInfo pictureInfo = new PictureInfo(id, pictureName, categoryKeyId, textareaData);
+        baseMapper.insert(pictureInfo);
+    }
 }

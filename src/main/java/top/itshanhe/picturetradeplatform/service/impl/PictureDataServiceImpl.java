@@ -18,6 +18,7 @@ import top.itshanhe.picturetradeplatform.service.IPictureUserService;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -93,7 +94,10 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
         pictureData.setUserId(userId);
         pictureData.setImgMoney(money);
         pictureData.setImgKey(copyKey);
-        pictureData.setImgCreateTime(LocalDateTime.parse(formattedDateTime));
+        // 定义日期时间格式
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        pictureData.setImgCreateTime(LocalDateTime.parse(formattedDateTime, formatter));
+        baseMapper.insert(pictureData);
     }
     
     private PictureDataDTO convertToDTO(PictureData pictureData) {
