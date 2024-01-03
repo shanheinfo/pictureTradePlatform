@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import top.itshanhe.picturetradeplatform.dto.PictureImg;
 import top.itshanhe.picturetradeplatform.dto.PictureNav;
-import top.itshanhe.picturetradeplatform.service.IPictureDataService;
-import top.itshanhe.picturetradeplatform.service.IPictureTagService;
+import top.itshanhe.picturetradeplatform.service.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +26,10 @@ import java.util.List;
 public class PictureHomeController {
     @Resource
     private IPictureDataService pictureDataService;
+    @Resource
+    private IPictureFileService pictureFileService;
+    @Resource
+    private IPictureUserService userService;
     @Resource
     private IPictureTagService pictureTagService;
     @GetMapping({"/index", "/", "/index.html"})
