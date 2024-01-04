@@ -10,6 +10,8 @@
     <script th:src="@{/boostrap/js/popper.min.js}"></script>
     <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
     <link rel="stylesheet" th:href="@{/home/css/head.css}" />
+<!--    <link rel="stylesheet" th:href="@{/home/css/swiper.css}">-->
+<!--    <script th:src="@{/home/js/swiper.js}"></script>-->
 </head>
 <body>
 <header th:replace="home/header::header-head"></header>
@@ -43,6 +45,16 @@
         event.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+    //
+    // // 初始化 Swiper
+    // var swiper = new Swiper('.swiper-container', {
+    //     slidesPerView: 'auto',
+    //     spaceBetween: 10,
+    //     navigation: {
+    //         nextEl: '.swiper-button-next',
+    //         prevEl: '.swiper-button-prev',
+    //     },
+    // });
 </script>
 
 

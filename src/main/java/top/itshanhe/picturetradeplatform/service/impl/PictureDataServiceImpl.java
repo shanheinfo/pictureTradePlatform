@@ -20,8 +20,11 @@ import top.itshanhe.picturetradeplatform.service.IPictureUserService;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -131,9 +134,16 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
         PictureImg pictureImg = new PictureImg();
         pictureImg.setId(pictureData.getImgId());
         pictureImg.setMoney(pictureData.getImgMoney());
-        pictureImg.setImgTime(pictureData.getImgCreateTime());
+        // 将 LocalDateTime 转换为 Date
+        Date utilDate = Date.from(pictureData.getImgCreateTime().atZone(ZoneId.systemDefault()).toInstant());
+    
+        // 使用 SimpleDateFormat 格式化 Date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDate = dateFormat.format(utilDate);
+        pictureImg.setImgTime(currentDate);
         pictureImg.setImgUrl(Domain + "/download?uid=" +pictureData.getImgId()+ "&imgName="+  pictureFileService.getFileUrl(pictureData.getImgId()));
         pictureImg.setAuthorName(pictureUserService.getIdByUserName(pictureData.getUserId()));
+        pictureImg.setImgTitle(pictureInfoService.getImgTitle(pictureData.getImgId()));
         return pictureImg;
     }
     

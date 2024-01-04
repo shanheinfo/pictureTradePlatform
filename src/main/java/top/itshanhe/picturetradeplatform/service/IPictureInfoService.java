@@ -14,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IPictureInfoService extends IService<PictureInfo> {
     
     void insertFileInfo(long id, String pictureName, Integer categoryKeyId, String textareaData);
+    
+    String getImgTitle(Long imgId);
 }

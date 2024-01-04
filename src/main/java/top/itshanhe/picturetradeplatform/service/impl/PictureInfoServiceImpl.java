@@ -2,6 +2,7 @@ package top.itshanhe.picturetradeplatform.service.impl;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import top.itshanhe.picturetradeplatform.entity.PictureInfo;
+import top.itshanhe.picturetradeplatform.entity.PictureUser;
 import top.itshanhe.picturetradeplatform.mapper.PictureInfoMapper;
 import top.itshanhe.picturetradeplatform.service.IPictureInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -22,5 +23,11 @@ public class PictureInfoServiceImpl extends ServiceImpl<PictureInfoMapper, Pictu
     public void insertFileInfo(long id, String pictureName, Integer categoryKeyId, String textareaData) {
         PictureInfo pictureInfo = new PictureInfo(id, pictureName, categoryKeyId, textareaData);
         baseMapper.insert(pictureInfo);
+    }
+    
+    @Override
+    public String getImgTitle(Long imgId) {
+        PictureInfo pictureInfo = query().eq("img_id",imgId).one();
+        return pictureInfo.getImgName();
     }
 }

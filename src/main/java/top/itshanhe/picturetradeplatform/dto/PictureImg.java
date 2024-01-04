@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
  * @author shanhe
  * @date 2023/12/15
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PictureImg {
     private Long id;
     
@@ -24,56 +27,8 @@ public class PictureImg {
     
     private BigDecimal money;
     
-    private LocalDateTime imgTime;
+    private String imgTime;
     
-    public PictureImg() {
-    }
+    private String imgTitle;
     
-    public PictureImg(Long id, String imgUrl, String authorName, BigDecimal money, LocalDateTime imgTime) {
-        this.id = id;
-        this.imgUrl = imgUrl;
-        this.authorName = authorName;
-        this.money = money;
-        this.imgTime = imgTime;
-    }
-    
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public String getImgUrl() {
-        return imgUrl;
-    }
-    
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-    
-    public String getAuthorName() {
-        return authorName;
-    }
-    
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
-    
-    public BigDecimal getMoney() {
-        return money;
-    }
-    
-    public void setMoney(BigDecimal money) {
-        this.money = money;
-    }
-    
-    public LocalDateTime getImgTime() {
-        return imgTime;
-    }
-    
-    public void setImgTime(LocalDateTime imgTime) {
-        this.imgTime = imgTime;
-    }
 }

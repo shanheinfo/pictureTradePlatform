@@ -31,7 +31,7 @@ public class PictureInfo implements Serializable {
     /**
      * 图片id
      */
-    @TableId(value = "img_id", type = IdType.AUTO)
+    @TableField("img_id")
     private Long imgId;
 
     /**
