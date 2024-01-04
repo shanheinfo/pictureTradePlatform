@@ -1,0 +1,21 @@
+body {
+    background-color: #f8f9fa;
+}
+.wallet-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+.wallet-card:hover {
+    transform: scale(1.02);
+}
+.balance {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+}
+.wallet-icon {
+    font-size: 50px;
+    color: #007bff;
+}

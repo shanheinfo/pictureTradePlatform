@@ -92,7 +92,14 @@ public class PictureAdminController {
     
     @GetMapping({"/userAdmin","/userAdmin/","/userAdmin/index","/userAdmin/index.html"})
     public String adminUserHome(Model model,HttpServletRequest request) {
+        String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
+        model.addAttribute("username",loginSession);
         // 返回后台首页视图
         return "user/index";
+    }
+    @GetMapping({"/userAdmin/wallet","/userAdmin/wallet.html"})
+    public String adminWallet(Model model,HttpServletRequest request) {
+        // 返回后台首页视图
+        return "user/admin/wallet";
     }
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>后台</title>
+  <link rel="stylesheet" th:href="@{/boostrap/css/bootstrap.min.css}" />
+  <script th:src="@{/boostrap/js/jquery.min.js}"></script>
+  <script th:src="@{/boostrap/js/popper.min.js}"></script>
+  <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
+  <script th:src="@{/boostrap/js/bootstrap.bundle.js}"></script>
+  <link rel="stylesheet" th:href="@{/home/css/userAdmin.css}" />
+</head>
+</head>
+<body>
+<header th:replace="user/header::user-header-box"></header>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card wallet-card">
+        <div class="card-body">
+          <h5 class="card-title">我的钱包</h5>
+          <div class="text-center mb-4">
+            <i class="bi bi-wallet-fill wallet-icon"></i>
+          </div>
+          <p class="card-text">余额:</p>
+          <p class="balance">1,000.00元</p>
+          <a href="#" class="btn btn-primary">查看更多详情</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

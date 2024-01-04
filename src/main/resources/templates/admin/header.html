@@ -20,13 +20,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">首页</a>
+          <a class="nav-link active" aria-current="page" href="/">首页</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin/userData.html">用户栏目</a>
+          <a class="nav-link" href="/admin/userData">用户栏目</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">图片栏目</a>
+          <a class="nav-link" href="/admin/pictureDataSearch">图片栏目</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">统计数据</a>
@@ -37,10 +37,10 @@
         <li class="nav-item">
           <a class="nav-link" href="#">其他栏目</a>
         </li>
-        <button class="btn btn-outline-success me-2" type="button">退出登录</button>
+        <a class="btn btn-outline-success me-2" type="button" href="/logout">退出登录</a>
       </ul>
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">用户名</a>
+        <a class="navbar-brand" href="#" th:text="'用户名'+${username}">用户名</a>
       </div>
     </div>
   </div>

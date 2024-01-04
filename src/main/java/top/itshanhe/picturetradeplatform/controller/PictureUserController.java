@@ -124,4 +124,17 @@ public class PictureUserController {
         }
         return "redirect:admin/index";
     }
+    
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        // 清除Session
+        HttpSession session = request.getSession();
+        session.removeAttribute(Constants.LOGIN_KEY);
+        session.removeAttribute(Constants.Admin_KEY);
+        // 销毁Session
+        session.invalidate();
+        
+        // 重定向到登录页面
+        return "redirect:/login";
+    }
 }
