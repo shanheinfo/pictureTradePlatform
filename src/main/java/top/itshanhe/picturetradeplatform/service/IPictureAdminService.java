@@ -14,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IPictureAdminService extends IService<PictureAdmin> {
     
     boolean getAdminByUserID(String userId);
+    
+    String ifAdmin(String loginUserId);
 }

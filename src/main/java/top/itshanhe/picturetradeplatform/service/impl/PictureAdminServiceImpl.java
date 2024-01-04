@@ -28,4 +28,16 @@ public class PictureAdminServiceImpl extends ServiceImpl<PictureAdminMapper, Pic
             return false;
         }
     }
+    
+    @Override
+    public String ifAdmin(String loginUserId) {
+        PictureAdmin pictureAdmin = query().eq("user_id",loginUserId).one();
+        if (pictureAdmin == null) {
+            return "null";
+        }
+        if (pictureAdmin.getStatus() == 1) {
+            return "true";
+        }
+        return "null";
+    }
 }

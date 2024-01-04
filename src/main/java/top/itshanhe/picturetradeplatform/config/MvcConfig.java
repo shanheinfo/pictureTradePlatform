@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import top.itshanhe.picturetradeplatform.interceptor.HomeInterceptor;
+import top.itshanhe.picturetradeplatform.interceptor.LoginInterceptor;
 import top.itshanhe.picturetradeplatform.service.impl.PictureAdminServiceImpl;
 import top.itshanhe.picturetradeplatform.service.impl.PictureUserServiceImpl;
 
@@ -54,6 +55,9 @@ public class MvcConfig implements WebMvcConfigurer {
         // 添加一个拦截器，拦截以/admin为前缀的url路径（后台登陆拦截）
         registry.addInterceptor(new HomeInterceptor(new PictureAdminServiceImpl(), new PictureUserServiceImpl()))
                 .addPathPatterns("/admin/**", "/admin/", "/userAdmin/**", "/userAdmin/")
+                .excludePathPatterns("/public/**", "/static/**", "/resources/**"); // 添加你想要排除的路径
+        registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns("/login","/login.html","/register","/register.html")
                 .excludePathPatterns("/public/**", "/static/**", "/resources/**"); // 添加你想要排除的路径
     }
 }

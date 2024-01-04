@@ -12,4 +12,5 @@ public class Constants {
     // 验证码key
     public final static String KAPTCHA_KEY = "KaptchaCode";
     public final static String LOGIN_KEY = "LoginUser";
+    public final static String Admin_KEY = "AdminUser";
 }

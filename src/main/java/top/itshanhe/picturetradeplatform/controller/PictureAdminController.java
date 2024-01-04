@@ -81,9 +81,9 @@ public class PictureAdminController {
     public String adminHome(Model model,HttpServletRequest request, HttpSession session) {
         // 从session中获取账号信息
         String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
-        if (StrUtil.isEmpty(loginSession)) {
-            return "redirect:/login";
-        }
+//        if (StrUtil.isEmpty(loginSession)) {
+//            return "redirect:/login";
+//        }
         // 用户名
         model.addAttribute("username",loginSession);
         // 返回后台首页视图

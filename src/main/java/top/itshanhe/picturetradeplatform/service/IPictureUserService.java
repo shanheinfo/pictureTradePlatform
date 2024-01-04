@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface IPictureUserService extends IService<PictureUser> {
     
-    Boolean login(String username, String password);
+    String login(String username, String password);
     
     String register(String username, String password, String email,String ipAddress);
     

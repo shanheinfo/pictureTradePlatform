@@ -31,16 +31,16 @@ import java.util.stream.Collectors;
 public class PictureUserServiceImpl extends ServiceImpl<PictureUserMapper, PictureUser> implements IPictureUserService {
     
     @Override
-    public Boolean login(String username, String password) {
+    public String login(String username, String password) {
         PictureUser pictureUser = query().eq("user_name",username).one();
         if (pictureUser == null) {
-            return false;
+            return null;
         }
         // 密码
         if (!MD5Util.Md5Code(password).equals(pictureUser.getUserPwd())) {
-            return false;
+            return null;
         }
-        return true;
+        return pictureUser.getUserId();
     }
     
     @Override

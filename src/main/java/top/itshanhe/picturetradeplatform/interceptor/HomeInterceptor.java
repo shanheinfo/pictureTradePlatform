@@ -36,30 +36,51 @@ public class HomeInterceptor implements HandlerInterceptor {
         String requestURI = request.getRequestURI();
         log.info("开始路径：{}",requestURI);
         String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
-        // 如果请求的URI包含特定路径，执行相应的逻辑
-        if (requestURI.contains("/admin/")) {
-            // 从session中获取账号信息
-            if (StrUtil.isEmpty(loginSession)) {
-                // 设置重定向地址
+        String userSession = (String) request.getSession().getAttribute(Constants.Admin_KEY);
+        if (!response.isCommitted()) {
+            if (!StrUtil.isEmpty(loginSession) && userSession.equals("true")) {
+                if (requestURI.contains("/userAdmin/") && !response.isCommitted()) {
+                    // 设置重定向地址
+                    response.sendRedirect("/admin/");
+                    return false;
+                }
+        
+            } else if (!StrUtil.isEmpty(loginSession) && userSession.equals("null")){
+                if (requestURI.contains("/admin/") && !response.isCommitted()) {
+                    response.sendRedirect("/userAdmin/");
+                    return false;
+                }
+            } else {
                 response.sendRedirect("/login");
-                return false;
             }
-//            UserDTO userDTO = iPictureUserService.getNameUserData(loginSession);
-//            userDTO.setUserAdmin(iPictureAdminService.getAdminByUserID(userDTO.getUserId()));
-            // 存入本地线程
-//            UserHolder.saveUser(userDTO);
-        } else if (requestURI.contains("/userAdmin/")) {
-            // 从session中获取账号信息
-            if (StrUtil.isEmpty(loginSession)) {
-                // 设置重定向地址
-                response.sendRedirect("/login");
-                return false;
-            }
-//            UserDTO userDTO = iPictureUserService.getNameUserData(loginSession);
-//            userDTO.setUserAdmin(iPictureAdminService.getAdminByUserID(userDTO.getUserId()));
-            // 存入本地线程
-//            UserHolder.saveUser(userDTO);
         }
+
+//        // 如果请求的URI包含特定路径，执行相应的逻辑
+//        if (requestURI.contains("/admin/")) {
+//            // 从session中获取账号信息
+//            if (!StrUtil.isEmpty(loginSession) && userSession.equals("true")) {
+//                // 设置重定向地址
+//                response.sendRedirect("/admin/");
+//            } else if (!StrUtil.isEmpty(loginSession) && userSession.equals("null")){
+//                response.sendRedirect("/userAdmin/");
+//            }
+////            UserDTO userDTO = iPictureUserService.getNameUserData(loginSession);
+////            userDTO.setUserAdmin(iPictureAdminService.getAdminByUserID(userDTO.getUserId()));
+//            // 存入本地线程
+////            UserHolder.saveUser(userDTO);
+//        } else if (requestURI.contains("/userAdmin/")) {
+//            // 从session中获取账号信息
+//            if (!StrUtil.isEmpty(loginSession) && userSession.equals("true")) {
+//                // 设置重定向地址
+//                response.sendRedirect("/admin/");
+//            } else if (!StrUtil.isEmpty(loginSession) && userSession.equals("null")){
+//                response.sendRedirect("/userAdmin/");
+//            }
+////            UserDTO userDTO = iPictureUserService.getNameUserData(loginSession);
+////            userDTO.setUserAdmin(iPictureAdminService.getAdminByUserID(userDTO.getUserId()));
+//            // 存入本地线程
+////            UserHolder.saveUser(userDTO);
+//        }
         
         return true;
     }

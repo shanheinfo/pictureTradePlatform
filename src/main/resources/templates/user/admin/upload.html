@@ -18,7 +18,7 @@
     <form th:action="@{/userAdmin/upload}" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="fileInput" class="form-label">选择文件</label>
-            <input type="file"  class="form-control" accept=".jpg, .jpeg, .png" max="10485760" name="file" id="fileInput" required>
+            <input type="file"  class="form-control" accept=".jpg, .jpeg, .png, .webp" max="10485760" name="file" id="fileInput" required>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">图片名称</label>
                 <input type="text" class="form-control" name="pictureName" id="exampleInputEmail1" required>

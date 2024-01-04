@@ -28,7 +28,7 @@
     </ul>
     <ul class="navbar-nav ml-auto align-items-center">
       <li class="nav-item">
-        <a class="nav-link active" href="index.html">首页</a>
+        <a class="nav-link active" href="/">首页</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="post.html">竞拍</a>
@@ -40,7 +40,11 @@
         <a class="nav-link" href="post.html">关于版权</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="login.html"><img class="rounded-circle mr-2" src="assets/img/av.png" width="30"><span class="align-middle">山河</span></a>
+        <a class="nav-link" href="/login.html">
+          <img class="rounded-circle mr-2" th:src="@{/assets/img/loginIcon.png}" width="30">
+          <span th:if="${loginSession}" th:text="${loginSession}">用户数据</span>
+          <span th:unless="${loginSession}">请登录</span>
+        </a>
       </li>
     </ul>
   </div>

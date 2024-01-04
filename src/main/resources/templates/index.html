@@ -26,7 +26,8 @@
         <path fill-rule="evenodd" d="M8 12a.5.5 0 0 1-.5-.5V5.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 5.707V11.5a.5.5 0 0 1-.5.5z"/>
     </svg>
 </a>
-
+<!-- 在Thymeleaf页面底部 -->
+<div id="loadMore" style="display: none;"></div>
 
 
 <script>
@@ -44,6 +45,43 @@
     document.getElementById('back-to-top').addEventListener('click', function(event) {
         event.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    $(document).ready(function() {
+        var page =2;
+
+        function loadMorePictures() {
+            var url = '/latest?page=' + page + '&pageSize=15';
+
+            $.get(url, function(data) {
+                if (data.length > 0) {
+                    data.forEach(function(picture) {
+                        var pictureHtml = '<div class="item">';
+                        pictureHtml += '<img src="' + picture.imgUrl + '" />';
+                        pictureHtml += '<div class="item-info">';
+                        pictureHtml += '<p>作者: ' + picture.authorName + '</p>';
+                        pictureHtml += '<p>价格: ' + picture.money + '元</p>';
+                        pictureHtml += '<p>时间: ' + picture.imgTime + '</p>';
+                        pictureHtml += '<p>作品名: ' + picture.imgTitle + '</p>';
+                        pictureHtml += '</div></div>';
+
+                        $('.masonry').append(pictureHtml);
+                    });
+
+                    page++; // 增加页数
+                } else {
+                    // 如果没有更多数据了，可以做一些提示或隐藏加载更多按钮
+                    $('#loadMore').hide();
+                }
+            });
+        }
+
+        // 滚动事件监听
+        $(window).scroll(function() {
+            if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+                loadMorePictures();
+            }
+        });
     });
     //
     // // 初始化 Swiper

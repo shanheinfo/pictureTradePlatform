@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import top.itshanhe.picturetradeplatform.common.Constants;
 import top.itshanhe.picturetradeplatform.entity.PictureUser;
+import top.itshanhe.picturetradeplatform.service.IPictureAdminService;
 import top.itshanhe.picturetradeplatform.service.IPictureUserService;
 
 import javax.annotation.Resource;
@@ -36,6 +37,8 @@ public class PictureUserController {
     private Producer kaptchaProducer;
     @Resource
     private IPictureUserService userService;
+    @Resource
+    private IPictureAdminService adminService;
     
     @GetMapping({"/login", "/login.html"})
     public String homeLogin() {
@@ -81,7 +84,7 @@ public class PictureUserController {
         String userRegister = userService.register(username, password, email,ipAddress);
         if (userRegister.equals("success")) {
             request.getSession().setAttribute(Constants.LOGIN_KEY, username);
-            return "redirect:admin/index";
+            return "redirect:userAdmin/";
         } else {
             //注册失败
             session.setAttribute("errorMsg", userRegister);
@@ -108,12 +111,17 @@ public class PictureUserController {
             session.setAttribute("errorMsg", "验证码不正确");
             return "redirect:/login";
         }
-        Boolean loginUser = userService.login(username,password);
-        if (!loginUser) {
+        String loginUserId = userService.login(username,password);
+        if (loginUserId.equals("null")) {
             session.setAttribute("errorMsg", "账号或者密码不存在");
             return "redirect:/login";
         }
+        String loginAdmin = adminService.ifAdmin(loginUserId);
+        if (loginAdmin.equals("null")) {
+            return "redirect:userAdmin/";
+        }
         // 账号名存入session
+        request.getSession().setAttribute(Constants.Admin_KEY, loginAdmin);
         request.getSession().setAttribute(Constants.LOGIN_KEY, username);
         return "redirect:admin/index";
     }
