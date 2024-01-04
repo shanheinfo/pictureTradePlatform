@@ -30,4 +30,8 @@ public interface IPictureDataService extends IService<PictureData> {
     LocalDateTime getImgTime(Long imgId);
     
     List<PictureImg> getLatestPictures(int offset, int pageSize,String defaultDomain);
+    
+    PictureData getPictureDataInfo(Long imgId);
+    
+    PictureImg getByIdSelect(Long imgId);
 }

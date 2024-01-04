@@ -15,6 +15,7 @@ import top.itshanhe.picturetradeplatform.util.LocalDateTimeUtil;
 import top.itshanhe.picturetradeplatform.util.MD5Util;
 import top.itshanhe.picturetradeplatform.util.RegexUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,6 +63,8 @@ public class PictureUserServiceImpl extends ServiceImpl<PictureUserMapper, Pictu
         pictureUser.setUserId(IdUtil.objectId());
         pictureUser.setUserName(username);
         pictureUser.setUserMail(email);
+        BigDecimal money = new BigDecimal("1234567.66");
+        pictureUser.setMoneyData(money);
         pictureUser.setUserPwd(MD5Util.Md5Code(password));
         pictureUser.setUserCreateIp(ipAddress);
         pictureUser.setUserCreateTime(LocalDateTimeUtil.localDateTime());

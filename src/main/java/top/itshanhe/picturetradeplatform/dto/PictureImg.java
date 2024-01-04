@@ -31,4 +31,8 @@ public class PictureImg {
     
     private String imgTitle;
     
+    private String key;
+    
+    private String uid;
+    
 }

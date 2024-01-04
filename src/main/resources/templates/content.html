@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图片版权交易平台-首页</title>
+  <link rel="stylesheet" th:href="@{/boostrap/css/bootstrap.min.css}" />
+  <link rel="stylesheet" th:href="@{/home/css/index.css}">
+  <script th:src="@{/boostrap/js/jquery.min.js}"></script>
+  <script th:src="@{/boostrap/js/popper.min.js}"></script>
+  <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
+  <link rel="stylesheet" th:href="@{/home/css/head.css}" />
+  <link rel="stylesheet" th:href="@{/home/css/foot.css}" />
+  <link rel="stylesheet" th:href="@{/home/css/content.css}" />
+  <!--    <link rel="stylesheet" th:href="@{/home/css/swiper.css}">-->
+  <!--    <script th:src="@{/home/js/swiper.js}"></script>-->
+</head>
+<body>
+<header th:replace="home/header::header-head"></header>
+
+<div style="height: 76px;width: 100%;margin: 10px 0px"></div>
+<div class="card-container">
+  <div class="card">
+    <div class="item" th:each="list : ${pictureImg}">
+      <img th:src="@{${list.imgUrl}}"/>
+      <div class="card-body">
+        <p th:text="'发布作者: ' + ${list.authorName}">作者: 没有</p>
+        <p th:text="'价格: ' + ${list.money} + '元'">价格: 0元</p>
+        <p th:text="'上架时间：' + ${list.imgTime}">时间: 未知</p>
+        <p th:text="'作品名：' + ${list.imgTitle}">作品名: 没有</p>
+        <p>唯一版权: <span th:text="${list.key}">是</span></p>
+        <button class="btn-purchase">购买</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer th:replace="home/footer::footer-foot"></footer>
+</body>
+</html>

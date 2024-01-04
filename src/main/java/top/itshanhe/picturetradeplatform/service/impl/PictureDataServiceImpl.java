@@ -130,6 +130,44 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
         // 转换需要字段给dto
         return convertToPictureDataList(userList);
     }
+    
+    @Override
+    public PictureData getPictureDataInfo(Long imgId) {
+        PictureData pictureData = query().eq("img_id",imgId).one();
+        if (pictureData != null) {
+            // 这里添加您需要执行的操作，例如日志记录或其他处理
+            return pictureData;
+        } else {
+            // 如果未找到匹配记录，可以返回一个默认值或抛出异常，具体取决于您的业务需求
+            return null; // 或者抛出自定义异常
+        }
+    }
+    
+    @Override
+    public PictureImg getByIdSelect(Long imgId) {
+        PictureData pictureData = query().eq("img_id",imgId).one();
+        PictureImg pictureImg = new PictureImg();
+        pictureImg.setId(imgId);
+        pictureImg.setMoney(pictureData.getImgMoney());
+        pictureImg.setAuthorName(pictureUserService.getIdByUserName(pictureData.getUserId()));
+        // 将 LocalDateTime 转换为 Date
+        Date utilDate = Date.from(pictureData.getImgCreateTime().atZone(ZoneId.systemDefault()).toInstant());
+    
+        // 使用 SimpleDateFormat 格式化 Date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDate = dateFormat.format(utilDate);
+        pictureImg.setImgTime(currentDate);
+        pictureImg.setImgUrl(Domain + "/download?uid=" +pictureData.getImgId()+ "&imgName="+  pictureFileService.getFileUrl(pictureData.getImgId()));
+        pictureImg.setImgTitle(pictureInfoService.getImgTitle(pictureData.getImgId()));
+        
+        if (pictureData.getImgKey()) {
+            pictureImg.setKey("是");
+        } else {
+            pictureImg.setKey("否");
+        }
+        return pictureImg;
+    }
+    
     private PictureImg convertToPictureDTO(PictureData pictureData) {
         PictureImg pictureImg = new PictureImg();
         pictureImg.setId(pictureData.getImgId());
@@ -144,6 +182,7 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
         pictureImg.setImgUrl(Domain + "/download?uid=" +pictureData.getImgId()+ "&imgName="+  pictureFileService.getFileUrl(pictureData.getImgId()));
         pictureImg.setAuthorName(pictureUserService.getIdByUserName(pictureData.getUserId()));
         pictureImg.setImgTitle(pictureInfoService.getImgTitle(pictureData.getImgId()));
+        pictureImg.setUid(String.valueOf(pictureData.getImgId()));
         return pictureImg;
     }
     

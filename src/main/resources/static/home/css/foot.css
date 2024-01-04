@@ -1,0 +1,20 @@
+.foot-con{
+    display: flex;
+    margin-top: 10px;
+    padding: 35px 0;
+    text-align: center;
+    background-color: #2E2E2E;
+}
+.foot-con .con {
+    width: 100%;
+    margin: 0 auto;
+}
+.foot-con .con div{
+
+}
+
+.foot-con .con div,
+.foot-con .con div a,
+.foot-con .con p{
+    color: white;
+}

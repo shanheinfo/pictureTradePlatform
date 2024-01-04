@@ -23,7 +23,6 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
         String userSession = (String) request.getSession().getAttribute(Constants.Admin_KEY);
-        log.info("信息：{}",userSession);
     
         // 从session中获取账号信息
         if (!StrUtil.isEmpty(loginSession) && userSession.equals("true") && !response.isCommitted()) {

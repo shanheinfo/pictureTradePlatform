@@ -10,6 +10,7 @@
     <script th:src="@{/boostrap/js/popper.min.js}"></script>
     <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
     <link rel="stylesheet" th:href="@{/home/css/head.css}" />
+    <link rel="stylesheet" th:href="@{/home/css/foot.css}" />
 <!--    <link rel="stylesheet" th:href="@{/home/css/swiper.css}">-->
 <!--    <script th:src="@{/home/js/swiper.js}"></script>-->
 </head>
@@ -28,7 +29,7 @@
 </a>
 <!-- 在Thymeleaf页面底部 -->
 <div id="loadMore" style="display: none;"></div>
-
+<footer th:replace="home/footer::footer-foot"></footer>
 
 <script>
     // 当用户滚动一定距离时显示按钮
@@ -57,13 +58,14 @@
                 if (data.length > 0) {
                     data.forEach(function(picture) {
                         var pictureHtml = '<div class="item">';
+                        pictureHtml += '<a href="/content/' + picture.uid + '">';
                         pictureHtml += '<img src="' + picture.imgUrl + '" />';
                         pictureHtml += '<div class="item-info">';
                         pictureHtml += '<p>作者: ' + picture.authorName + '</p>';
                         pictureHtml += '<p>价格: ' + picture.money + '元</p>';
                         pictureHtml += '<p>时间: ' + picture.imgTime + '</p>';
                         pictureHtml += '<p>作品名: ' + picture.imgTitle + '</p>';
-                        pictureHtml += '</div></div>';
+                        pictureHtml += '</div></a></div>';
 
                         $('.masonry').append(pictureHtml);
                     });
@@ -83,16 +85,6 @@
             }
         });
     });
-    //
-    // // 初始化 Swiper
-    // var swiper = new Swiper('.swiper-container', {
-    //     slidesPerView: 'auto',
-    //     spaceBetween: 10,
-    //     navigation: {
-    //         nextEl: '.swiper-button-next',
-    //         prevEl: '.swiper-button-prev',
-    //     },
-    // });
 </script>
 
 

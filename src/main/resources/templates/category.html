@@ -49,14 +49,16 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
   var value = document.getElementById('loadMores').innerText;
+  // console.log(value)
   $(document).ready(function() {
     var page =2;
 
-
     function loadMorePictures() {
-      var url = '/tag/'+value+'/data?page=' + page;
+      var url = '/category/'+value+'/data?page=' + page;
+      // console.log(url)
 
       $.get(url, function(data) {
+        // console.log(data)
         if (data.length > 0) {
           data.forEach(function(picture) {
             var pictureHtml = '<div class="item">';

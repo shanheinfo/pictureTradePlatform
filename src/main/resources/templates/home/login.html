@@ -10,6 +10,7 @@
     <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
     <link rel="stylesheet" th:href="@{/home/css/login.css}" />
     <link rel="stylesheet" th:href="@{/home/css/head.css}" />
+    <link rel="stylesheet" th:href="@{/home/css/foot.css}" />
     <meta name="keywords" content="LinkCloudBBS,BBS" />
     <meta name="description" content="LinkCloudBBS是一个轻量的bbs论坛"/>
 </head>
@@ -58,7 +59,7 @@
     </div>
 </div>
 
-
+<footer th:replace="home/footer::footer-foot"></footer>
 
 </body>
 </html>

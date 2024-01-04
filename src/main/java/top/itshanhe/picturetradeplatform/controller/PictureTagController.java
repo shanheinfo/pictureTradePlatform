@@ -1,15 +1,15 @@
 package top.itshanhe.picturetradeplatform.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import top.itshanhe.picturetradeplatform.dto.PictureImg;
 import top.itshanhe.picturetradeplatform.dto.PictureNav;
+import top.itshanhe.picturetradeplatform.service.IPictureTagRelationService;
 import top.itshanhe.picturetradeplatform.service.IPictureTagService;
 
 import javax.annotation.Resource;
@@ -30,29 +30,46 @@ import java.util.List;
 public class PictureTagController {
     @Resource
     private IPictureTagService pictureTagService;
+    @Resource
+    private IPictureTagRelationService pictureTagRelationService;
+    
+    private static final int PAGE_SIZE = 15;
     @GetMapping("/tag/{id}")
-    public String tagHome(@PathVariable String id, Model model, HttpServletRequest request) {
+    public String tagHome(@PathVariable Long id, Model model,
+                          @RequestParam(defaultValue = "1") int page,
+                          HttpServletRequest request) {
     
         String defaultDomain = request.getServerName() + ":" + request.getServerPort();
         List<PictureNav> strings = pictureTagService.selectTagAll(defaultDomain);
+        
     
-        List<PictureImg> stringse = new ArrayList<>();
-//        stringse.add(new PictureImg(1,"/home/img/6.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/5.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/1.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/3.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/4.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/5.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/6.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/1.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/3.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/3.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/2.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/3.jpg","山河",30.99, LocalDateTime.now()));
-//        stringse.add(new PictureImg(1,"/home/img/5.jpg","山河",30.99, LocalDateTime.now()));
-        model.addAttribute("pictureImg",stringse);
+        // 如果 page = 2 那么 offset = 30 就是 30+1 条往下查询
+        int offset = (page - 1) * PAGE_SIZE;
+    
+        // 根据关键词和分页信息查询图片
+        List<PictureImg> picturePage = pictureTagRelationService.getPicturesByKeyword(id, offset,PAGE_SIZE);
+
+        model.addAttribute("pictureImg",picturePage);
         model.addAttribute("pictureNav",strings);
+        model.addAttribute("uuid",id);
         return "/tag";
     }
     
+    @GetMapping("/tag/{id}/data")
+    public ResponseEntity<List<PictureImg>> tagHome(@PathVariable Long id,
+                                                    @RequestParam(defaultValue = "1") int page,
+                                                    HttpServletRequest request) {
+        
+        String defaultDomain = request.getServerName() + ":" + request.getServerPort();
+        List<PictureNav> strings = pictureTagService.selectTagAll(defaultDomain);
+        
+        
+        // 如果 page = 2 那么 offset = 30 就是 30+1 条往下查询
+        int offset = (page - 1) * PAGE_SIZE;
+        
+        // 根据关键词和分页信息查询图片
+        List<PictureImg> picturePage = pictureTagRelationService.getPicturesByKeyword(id, offset,PAGE_SIZE);
+        
+        return ResponseEntity.ok(picturePage);
+    }
 }

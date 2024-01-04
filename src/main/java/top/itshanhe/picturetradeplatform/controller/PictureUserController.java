@@ -117,12 +117,11 @@ public class PictureUserController {
             return "redirect:/login";
         }
         String loginAdmin = adminService.ifAdmin(loginUserId);
+        request.getSession().setAttribute(Constants.LOGIN_KEY, username);
+        request.getSession().setAttribute(Constants.Admin_KEY, loginAdmin);
         if (loginAdmin.equals("null")) {
             return "redirect:userAdmin/";
         }
-        // 账号名存入session
-        request.getSession().setAttribute(Constants.Admin_KEY, loginAdmin);
-        request.getSession().setAttribute(Constants.LOGIN_KEY, username);
         return "redirect:admin/index";
     }
 }
