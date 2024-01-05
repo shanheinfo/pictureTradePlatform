@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>后台</title>
+    <link rel="stylesheet" th:href="@{/boostrap/css/bootstrap.min.css}" />
+    <script th:src="@{/boostrap/js/jquery.min.js}"></script>
+    <script th:src="@{/boostrap/js/popper.min.js}"></script>
+    <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/boostrap/js/bootstrap.bundle.js}"></script>
+    <link rel="stylesheet" th:href="@{/home/css/userAdmin.css}" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .transaction-table {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="user/header::user-header-box"></header>
+<div class="container">
+    <h2 class="mt-4 mb-4">交易记录流水账单</h2>
+
+    <table class="table transaction-table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">类型</th>
+            <th scope="col">金额</th>
+            <th scope="col">备注</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>支出</td>
+            <td>-500.00</td>
+            <td>购物</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>收入</td>
+            <td>1000.00</td>
+            <td>工资</td>
+        </tr>
+        <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

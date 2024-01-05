@@ -1,10 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>后台</title>
+    <link rel="stylesheet" th:href="@{/boostrap/css/bootstrap.min.css}" />
+    <script th:src="@{/boostrap/js/jquery.min.js}"></script>
+    <script th:src="@{/boostrap/js/popper.min.js}"></script>
+    <script th:src="@{/boostrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/boostrap/js/bootstrap.bundle.js}"></script>
+    <link rel="stylesheet" th:href="@{/home/css/userAdmin.css}" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .product-list {
+            margin-top: 30px;
+        }
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .product-image {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+    </style>
 </head>
 <body>
+<header th:replace="user/header::user-header-box"></header>
+<div class="container">
+    <h2 class="mt-4 mb-4">我的图片和价格列表</h2>
+
+    <div class="product-list">
+        <!-- Example product item, replace with your actual data -->
+        <div class="product-item">
+            <img src="path/to/image1.jpg" alt="Product 1" class="product-image">
+            <div>
+                <h5>Product 1</h5>
+                <p>价格: $50.00</p>
+            </div>
+        </div>
+
+        <div class="product-item">
+            <img src="path/to/image2.jpg" alt="Product 2" class="product-image">
+            <div>
+                <h5>Product 2</h5>
+                <p>价格: $75.00</p>
+            </div>
+        </div>
+
+        <!-- Add more product items as needed -->
+    </div>
+</div>
 
 </body>
 </html>

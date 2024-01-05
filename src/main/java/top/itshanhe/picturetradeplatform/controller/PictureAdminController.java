@@ -9,12 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import top.itshanhe.picturetradeplatform.common.Constants;
+import top.itshanhe.picturetradeplatform.dto.UserDTO;
 import top.itshanhe.picturetradeplatform.dto.UserLookDataDTO;
 import top.itshanhe.picturetradeplatform.service.IPictureUserService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -99,7 +101,37 @@ public class PictureAdminController {
     }
     @GetMapping({"/userAdmin/wallet","/userAdmin/wallet.html"})
     public String adminWallet(Model model,HttpServletRequest request) {
+        String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
+        if (loginSession != null) {
+            BigDecimal Money = userService.getNameUserDataMoney(loginSession);
+            model.addAttribute("Money",Money);
+        }
+        model.addAttribute("username",loginSession);
         // 返回后台首页视图
         return "user/admin/wallet";
+    }
+    
+    @GetMapping({"/userAdmin/payData","/userAdmin/payData.html"})
+    public String adminPayData(Model model,HttpServletRequest request) {
+        String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
+//        if (loginSession != null) {
+//            BigDecimal Money = userService.getNameUserDataMoney(loginSession);
+//            model.addAttribute("Money",Money);
+//        }
+        model.addAttribute("username",loginSession);
+        // 返回后台首页视图
+        return "user/admin/payData";
+    }
+    
+    @GetMapping({"/userAdmin/myPicture","/userAdmin/myPicture.html"})
+    public String adminMyPicture(Model model,HttpServletRequest request) {
+        String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
+//        if (loginSession != null) {
+//            BigDecimal Money = userService.getNameUserDataMoney(loginSession);
+//            model.addAttribute("Money",Money);
+//        }
+        model.addAttribute("username",loginSession);
+        // 返回后台首页视图
+        return "user/admin/myPicture";
     }
 }

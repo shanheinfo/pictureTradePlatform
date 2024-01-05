@@ -146,4 +146,16 @@ public class PictureUserServiceImpl extends ServiceImpl<PictureUserMapper, Pictu
         return pictureUser.getUserName();
     }
     
+    @Override
+    public BigDecimal getNameUserDataMoney(String loginSession) {
+        PictureUser pictureUser = lambdaQuery().eq(PictureUser::getUserName, loginSession).one();
+        return pictureUser.getMoneyData();
+    }
+    
+    @Override
+    public PictureUser getIdByUserNameData(String loginSession) {
+        PictureUser pictureUser = lambdaQuery().eq(PictureUser::getUserName, loginSession).one();
+        return pictureUser;
+    }
+    
 }

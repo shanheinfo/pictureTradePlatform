@@ -5,6 +5,7 @@ import top.itshanhe.picturetradeplatform.dto.UserLookDataDTO;
 import top.itshanhe.picturetradeplatform.entity.PictureUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -30,4 +31,8 @@ public interface IPictureUserService extends IService<PictureUser> {
     UserDTO getNameUserData(String loginSession);
     
     String getIdByUserName(String userId);
+    
+    BigDecimal getNameUserDataMoney(String loginSession);
+    
+    PictureUser getIdByUserNameData(String loginSession);
 }

@@ -63,8 +63,9 @@ public class PictureHomeController {
         return ResponseEntity.ok(latestPictures);
     }
     @GetMapping("/content/{imgId}")
-    public String getContentPicture(Model model, @PathVariable Long imgId) {
-        
+    public String getContentPicture(Model model, @PathVariable Long imgId,HttpServletRequest request) {
+        String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
+        model.addAttribute("loginSession",loginSession);
         model.addAttribute("pictureImg",pictureDataService.getByIdSelect(imgId));
         return  "/content";
     }

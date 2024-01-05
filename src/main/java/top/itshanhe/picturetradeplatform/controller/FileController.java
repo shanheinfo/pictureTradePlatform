@@ -72,9 +72,11 @@ class FileController {
     private IPictureUserService iPictureUserService;
     
     @GetMapping("/userAdmin/uploadData")
-    public String showUploadForm(Model model) {
+    public String showUploadForm(Model model,HttpServletRequest request) {
         CategoryArrayDTO categoryArrayDTO = new CategoryArrayDTO(iPictureCategoryService.selectAllCatgory());
         model.addAttribute("categoryDTOS", categoryArrayDTO);
+        String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
+        model.addAttribute("username",loginSession);
         return "/user/admin/upload";
     }
     

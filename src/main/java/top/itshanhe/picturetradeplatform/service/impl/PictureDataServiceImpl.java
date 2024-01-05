@@ -168,6 +168,21 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
         return pictureImg;
     }
     
+    @Override
+    public boolean setUserMoney(String userId, BigDecimal subtract) {
+        
+        update().set("money_data",subtract).eq("user_id",userId).update();
+//        UpdateWrapper<PictureUser> updateWrapper = new UpdateWrapper<>();
+//        updateWrapper.set("money_data", subtract).eq("user_id", userId);
+//
+//        boolean updateResult = pictureUserService.update(updateWrapper);
+//
+//        if (!updateResult) {
+//
+//        }
+        return true;
+    }
+    
     private PictureImg convertToPictureDTO(PictureData pictureData) {
         PictureImg pictureImg = new PictureImg();
         pictureImg.setId(pictureData.getImgId());

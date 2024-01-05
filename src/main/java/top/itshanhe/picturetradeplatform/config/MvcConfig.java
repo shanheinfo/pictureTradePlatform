@@ -54,7 +54,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加一个拦截器，拦截以/admin为前缀的url路径（后台登陆拦截）
         registry.addInterceptor(new HomeInterceptor(new PictureAdminServiceImpl(), new PictureUserServiceImpl()))
-                .addPathPatterns("/admin/**", "/admin/", "/userAdmin/**", "/userAdmin/")
+                .addPathPatterns("/admin/**", "/admin/", "/userAdmin/**", "/userAdmin/","/userAdmin/wallet")
                 .excludePathPatterns("/public/**", "/static/**", "/resources/**"); // 添加你想要排除的路径
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/login","/login.html","/register","/register.html")
