@@ -1,5 +1,6 @@
 package top.itshanhe.picturetradeplatform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import top.itshanhe.picturetradeplatform.dto.PictureImg;
 import top.itshanhe.picturetradeplatform.entity.PictureOrderBillBuy;
 import top.itshanhe.picturetradeplatform.entity.PictureOrderBillCredits;
@@ -35,7 +36,7 @@ public class PictureOrderBillBuyServiceImpl extends ServiceImpl<PictureOrderBill
             boolean hasBought = hasBoughtPicture(idByUserNameData.getUserId(), byIdSelect.getId());
     
             if (hasBought) {
-                return "已经购买过该图片";
+                return "已经购买过该图片，请不要再次购买";
             }
             
             // 余额足够 可以购买
@@ -64,9 +65,17 @@ public class PictureOrderBillBuyServiceImpl extends ServiceImpl<PictureOrderBill
     public boolean hasBoughtPicture(String userId, Long imgId) {
         // 查询购买流水表是否存在对应记录
         List<PictureOrderBillBuy> list = list(
-                lambdaQuery().eq(PictureOrderBillBuy::getUserId, userId).eq(PictureOrderBillBuy::getImgId, imgId)
+                // 使用 MyBatis Plus 提供的 LambdaQueryWrapper 构建查询条件
+                Wrappers.<PictureOrderBillBuy>lambdaQuery()
+                        // 添加等于条件，查询 userId 字段等于给定的 userId 变量的记录
+                        .eq(PictureOrderBillBuy::getUserId, userId)
+                        // 添加等于条件，查询 imgId 字段等于给定的 imgId 变量的记录
+                        .eq(PictureOrderBillBuy::getImgId, imgId)
         );
-        
+    
+        // 检查查询结果列表是否不为 null 且不为空
+        // 如果存在符合条件的记录，说明用户已经购买过这张图片，返回 true；否则，返回 false。
         return list != null && !list.isEmpty();
+
     }
 }

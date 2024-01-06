@@ -112,7 +112,7 @@ public class PictureUserController {
             return "redirect:/login";
         }
         String loginUserId = userService.login(username,password);
-        if (loginUserId.equals("null")) {
+        if (loginUserId == null || loginUserId.equals("null")) {
             session.setAttribute("errorMsg", "账号或者密码不存在");
             return "redirect:/login";
         }

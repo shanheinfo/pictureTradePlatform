@@ -1,6 +1,7 @@
 package top.itshanhe.picturetradeplatform.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,7 +160,7 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
         pictureImg.setImgTime(currentDate);
         pictureImg.setImgUrl(Domain + "/download?uid=" +pictureData.getImgId()+ "&imgName="+  pictureFileService.getFileUrl(pictureData.getImgId()));
         pictureImg.setImgTitle(pictureInfoService.getImgTitle(pictureData.getImgId()));
-        
+        pictureImg.setUid(String.valueOf(pictureData.getImgId()));
         if (pictureData.getImgKey()) {
             pictureImg.setKey("是");
         } else {
@@ -170,17 +171,19 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
     
     @Override
     public boolean setUserMoney(String userId, BigDecimal subtract) {
+    
+        UpdateWrapper<PictureUser> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("money_data", subtract).eq("user_id", userId);
+    
+        // 使用pictureUserService更新用户的金额
+        boolean updateResult = pictureUserService.update(updateWrapper);
         
-        update().set("money_data",subtract).eq("user_id",userId).update();
-//        UpdateWrapper<PictureUser> updateWrapper = new UpdateWrapper<>();
-//        updateWrapper.set("money_data", subtract).eq("user_id", userId);
-//
-//        boolean updateResult = pictureUserService.update(updateWrapper);
-//
-//        if (!updateResult) {
-//
-//        }
-        return true;
+        if (!updateResult) {
+            // 失败 todo 记录Log
+        }
+    
+        // 返回更新操作的结果
+        return updateResult;
     }
     
     private PictureImg convertToPictureDTO(PictureData pictureData) {

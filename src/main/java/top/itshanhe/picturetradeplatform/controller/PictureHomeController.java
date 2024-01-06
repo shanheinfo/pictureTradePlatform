@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import top.itshanhe.picturetradeplatform.common.Constants;
 import top.itshanhe.picturetradeplatform.dto.PictureImg;
 import top.itshanhe.picturetradeplatform.dto.PictureNav;
@@ -32,6 +33,10 @@ public class PictureHomeController {
     private IPictureDataService pictureDataService;
     @Resource
     private IPictureTagService pictureTagService;
+    @Resource
+    private PictureOrderBillBuyController pictureOrderBillCreditsServiceController;
+    @Resource
+    private IPictureUserService pictureUserService;
     private static final int PAGE_SIZE = 15;
     @GetMapping({"/index", "/", "/index.html"})
     public String indexHome(Model model,HttpServletRequest request,
@@ -68,6 +73,13 @@ public class PictureHomeController {
         model.addAttribute("loginSession",loginSession);
         model.addAttribute("pictureImg",pictureDataService.getByIdSelect(imgId));
         return  "/content";
+    }
+    
+    @GetMapping("/buy/{uid}")
+    public String buyPicture(@PathVariable Long uid,
+                             HttpServletRequest request,
+                             Model model, RedirectAttributes redirectAttributes) {
+        return pictureOrderBillCreditsServiceController.buyPictures(uid,request,model,pictureUserService,pictureDataService,redirectAttributes);
     }
     
 }

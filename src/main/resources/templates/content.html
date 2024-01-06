@@ -29,8 +29,10 @@
         <p th:text="'上架时间：' + ${list.imgTime}">时间: 未知</p>
         <p th:text="'作品名：' + ${list.imgTitle}">作品名: 没有</p>
         <p>唯一版权: <span th:text="${list.key}">是</span></p>
-        <a class="btn-purchase" th:url="/">购买</a>
+        <a class="btn-purchase" th:if="${loginSession}" th:href="'/buy/'+${list.uid}" style="color: white">购买</a>
+        <a class="btn-purchase" th:unless="${loginSession}" href="/login" style="color: white">请登录才能购买</a>
       </div>
+      <p th:text="${buydata}"></p>
     </div>
   </div>
 </div>

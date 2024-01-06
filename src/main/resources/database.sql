@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `picture_order_bill_credits`(
          `bill_credits_data` text NOT NULL COMMENT '积分流水信息',
          `bill_credits_money_data` decimal(12,2) NOT NULL COMMENT '流水金额数据',
          PRIMARY KEY (`id`) USING BTREE,
-         UNIQUE (`user_id`)
+         INDEX (`user_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact COMMENT '积分流水表';
 
 #----------------------
@@ -162,7 +162,8 @@ CREATE TABLE IF NOT EXISTS `picture_order_bill_buy`(
          `user_id` varchar(90) NOT NULL COMMENT '用户id',
          `bill_credits_money_data` decimal(12,2) NOT NULL COMMENT '流水金额数据',
          PRIMARY KEY (`id`) USING BTREE,
-         UNIQUE (`img_id`)
+         INDEX (`img_id`),
+         INDEX (`user_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact COMMENT '购买流水表';
 
 #----------------------
