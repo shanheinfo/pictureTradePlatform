@@ -6,7 +6,9 @@
     cursor: zoom-in;
     overflow: hidden;
 }
-
+.item #checkImg {
+    cursor: zoom-in;
+}
 .item img {
     width: 100%;
     display: block;

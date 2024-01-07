@@ -120,6 +120,9 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
     @Override
     public LocalDateTime getImgTime(Long imgId) {
         PictureData pictureData = query().eq("img_id",imgId).one();
+        if (pictureData == null) {
+            return null;
+        }
         return pictureData.getImgCreateTime();
     }
     

@@ -45,6 +45,7 @@ public class PictureOrderBillBuyController {
         
         String success =  pictureOrderBillBuyService.buyPicture(pictureDataService.getByIdSelect(uid),userService.getIdByUserNameData(loginSession),pictureDataService,pictureOrderBillCreditsService);
         redirectAttributes.addFlashAttribute("buydata",success);
+        redirectAttributes.addFlashAttribute("buybtn",true);
         log.info("{}",success);
         return "redirect:/content/"+ String.valueOf(uid);
     }

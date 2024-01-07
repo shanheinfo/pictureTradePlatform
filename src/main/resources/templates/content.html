@@ -22,17 +22,19 @@
 <div class="card-container">
   <div class="card">
     <div class="item" th:each="list : ${pictureImg}">
-      <img th:src="@{${list.imgUrl}}"/>
+      <a id="checkImg" th:href="${list.imgUrl}">
+        <img th:src="@{${list.imgUrl}}"/>
+      </a>
       <div class="card-body">
         <p th:text="'发布作者: ' + ${list.authorName}">作者: 没有</p>
         <p th:text="'价格: ' + ${list.money} + '元'">价格: 0元</p>
         <p th:text="'上架时间：' + ${list.imgTime}">时间: 未知</p>
         <p th:text="'作品名：' + ${list.imgTitle}">作品名: 没有</p>
         <p>唯一版权: <span th:text="${list.key}">是</span></p>
-        <a class="btn-purchase" th:if="${loginSession}" th:href="'/buy/'+${list.uid}" style="color: white">购买</a>
+        <a class="btn-purchase" th:if="${loginSession}" th:href="'/buy/'+${list.uid}" style="color: white;background: #6f42c1">购买</a>
         <a class="btn-purchase" th:unless="${loginSession}" href="/login" style="color: white">请登录才能购买</a>
+        <p th:text="${buydata}"></p>
       </div>
-      <p th:text="${buydata}"></p>
     </div>
   </div>
 </div>
