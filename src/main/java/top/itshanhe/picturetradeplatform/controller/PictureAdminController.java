@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import top.itshanhe.picturetradeplatform.common.Constants;
 import top.itshanhe.picturetradeplatform.dto.UserDTO;
 import top.itshanhe.picturetradeplatform.dto.UserLookDataDTO;
+import top.itshanhe.picturetradeplatform.entity.PictureOrderBillCredits;
+import top.itshanhe.picturetradeplatform.entity.PictureUser;
+import top.itshanhe.picturetradeplatform.service.IPictureOrderBillCreditsService;
 import top.itshanhe.picturetradeplatform.service.IPictureUserService;
 
 import javax.annotation.Resource;
@@ -32,6 +35,10 @@ import java.util.List;
 public class PictureAdminController {
     @Resource
     private IPictureUserService userService;
+//    @Resource
+//    private PictureOrderBillCreditsController orderBillCreditsController;
+    @Resource
+    private IPictureOrderBillCreditsService pictureOrderBillCreditsService;
     
     // 每页显示的条目数量
     private static final int PAGE_SIZE = 30;
@@ -118,8 +125,10 @@ public class PictureAdminController {
 //            BigDecimal Money = userService.getNameUserDataMoney(loginSession);
 //            model.addAttribute("Money",Money);
 //        }
+        PictureUser idByUserNameData = userService.getIdByUserNameData(loginSession);
         model.addAttribute("username",loginSession);
-        // 返回后台首页视图
+        List<PictureOrderBillCredits> list = pictureOrderBillCreditsService.selectOrderMoneyByUserId(idByUserNameData.getUserId());
+        model.addAttribute("order",list);
         return "user/admin/payData";
     }
     

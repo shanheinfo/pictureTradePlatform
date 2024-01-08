@@ -33,18 +33,12 @@
             <th scope="col">备注</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody th:each="item,num : ${order}">
         <tr>
-            <th scope="row">1</th>
+            <th scope="row" th:text="${num.index}">1</th>
             <td>支出</td>
-            <td>-500.00</td>
-            <td>购物</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>收入</td>
-            <td>1000.00</td>
-            <td>工资</td>
+            <td th:text="'金额' + ${item.billCreditsMoneyData} + '元'">-500.00</td>
+            <td th:text="${item.billCreditsData}">购物</td>
         </tr>
         <!-- Add more rows as needed -->
         </tbody>

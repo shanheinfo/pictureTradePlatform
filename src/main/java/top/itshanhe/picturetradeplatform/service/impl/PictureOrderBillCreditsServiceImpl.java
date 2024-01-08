@@ -6,6 +6,8 @@ import top.itshanhe.picturetradeplatform.service.IPictureOrderBillCreditsService
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 积分流水表 服务实现类
@@ -16,5 +18,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PictureOrderBillCreditsServiceImpl extends ServiceImpl<PictureOrderBillCreditsMapper, PictureOrderBillCredits> implements IPictureOrderBillCreditsService {
-
+    
+    @Override
+    public List<PictureOrderBillCredits> selectOrderMoneyByUserId(String userId) {
+        return list();
+    }
 }
