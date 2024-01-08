@@ -9,10 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import top.itshanhe.picturetradeplatform.common.Constants;
+import top.itshanhe.picturetradeplatform.dto.PictureImg;
 import top.itshanhe.picturetradeplatform.dto.UserDTO;
 import top.itshanhe.picturetradeplatform.dto.UserLookDataDTO;
 import top.itshanhe.picturetradeplatform.entity.PictureOrderBillCredits;
 import top.itshanhe.picturetradeplatform.entity.PictureUser;
+import top.itshanhe.picturetradeplatform.service.IPictureDataService;
 import top.itshanhe.picturetradeplatform.service.IPictureOrderBillCreditsService;
 import top.itshanhe.picturetradeplatform.service.IPictureUserService;
 
@@ -39,6 +41,9 @@ public class PictureAdminController {
 //    private PictureOrderBillCreditsController orderBillCreditsController;
     @Resource
     private IPictureOrderBillCreditsService pictureOrderBillCreditsService;
+    @Resource
+    private IPictureDataService pictureDataService;
+    
     
     // 每页显示的条目数量
     private static final int PAGE_SIZE = 30;
@@ -135,10 +140,8 @@ public class PictureAdminController {
     @GetMapping({"/userAdmin/myPicture","/userAdmin/myPicture.html"})
     public String adminMyPicture(Model model,HttpServletRequest request) {
         String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
-//        if (loginSession != null) {
-//            BigDecimal Money = userService.getNameUserDataMoney(loginSession);
-//            model.addAttribute("Money",Money);
-//        }
+        List<PictureImg> pictureImgs = pictureDataService.selectImgData(loginSession);
+        model.addAttribute("pictureData",pictureImgs);
         model.addAttribute("username",loginSession);
         // 返回后台首页视图
         return "user/admin/myPicture";

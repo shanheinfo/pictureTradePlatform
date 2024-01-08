@@ -36,4 +36,6 @@ public interface IPictureDataService extends IService<PictureData> {
     PictureImg getByIdSelect(Long imgId);
     
     boolean setUserMoney(String userId, BigDecimal subtract);
+    
+    List<PictureImg> selectImgData(String loginSession);
 }

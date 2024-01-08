@@ -40,25 +40,16 @@
 <div class="container">
     <h2 class="mt-4 mb-4">我的图片和价格列表</h2>
 
-    <div class="product-list">
+    <div class="product-list" th:each="pictureDatas : ${pictureData}">
         <!-- Example product item, replace with your actual data -->
         <div class="product-item">
-            <img src="path/to/image1.jpg" alt="Product 1" class="product-image">
+            <img th:src="@{${pictureDatas.imgUrl}}" alt="Product 1" class="product-image">
             <div>
-                <h5>Product 1</h5>
-                <p>价格: $50.00</p>
+                <h5 th:text="${pictureDatas.imgTitle}">Product 1</h5>
+                <p th:text="${pictureDatas.money}">价格: $50.00</p>
+                <a class="btn-purchase" th:download="'图片' + ${#numbers.sequence(1, 1000)} + '.png'" th:href="@{${pictureDatas.imgUrl}}" style="color: white;background: #1e9fff">点我下载</a>
             </div>
         </div>
-
-        <div class="product-item">
-            <img src="path/to/image2.jpg" alt="Product 2" class="product-image">
-            <div>
-                <h5>Product 2</h5>
-                <p>价格: $75.00</p>
-            </div>
-        </div>
-
-        <!-- Add more product items as needed -->
     </div>
 </div>
 
