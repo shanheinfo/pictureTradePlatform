@@ -33,8 +33,8 @@
         <p>唯一版权: <span th:text="${list.key}">是</span></p>
         <a class="btn-purchase" th:if="${loginSession}" th:href="'/buy/'+${list.uid}" style="color: white;background: #6f42c1">购买</a>
         <a class="btn-purchase" th:unless="${loginSession}" href="/login" style="color: white">请登录才能购买</a>
-        <p th:text="${buydata}"></p>
       </div>
+      <p th:text="${buydata}"></p>
     </div>
   </div>
 </div>

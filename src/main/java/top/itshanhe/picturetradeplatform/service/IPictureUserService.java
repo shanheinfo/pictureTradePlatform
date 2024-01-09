@@ -35,4 +35,6 @@ public interface IPictureUserService extends IService<PictureUser> {
     BigDecimal getNameUserDataMoney(String loginSession);
     
     PictureUser getIdByUserNameData(String loginSession);
+    
+    void deleteByImgId(String id);
 }

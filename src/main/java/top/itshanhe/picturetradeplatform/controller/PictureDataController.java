@@ -3,16 +3,15 @@ package top.itshanhe.picturetradeplatform.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import top.itshanhe.picturetradeplatform.common.Constants;
 import top.itshanhe.picturetradeplatform.dto.PictureDataDTO;
 import top.itshanhe.picturetradeplatform.dto.UserLookDataDTO;
 import top.itshanhe.picturetradeplatform.service.IPictureDataService;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -39,7 +38,7 @@ public class PictureDataController {
                                     @RequestParam(defaultValue = "0") int minPrice,
                                     @RequestParam(defaultValue = "1000000") int maxPrice,
                                     @RequestParam(defaultValue = "0") int minPriceInput,
-                                    @RequestParam(defaultValue = "1000000") int maxPriceInput) {
+                                    @RequestParam(defaultValue = "1000000") int maxPriceInput, HttpServletRequest request) {
         
         // 打印请求参数
         System.out.println("Page: " + page + ", Keyword: " + keyword + ", Search Option: " + searchOption +
@@ -62,13 +61,21 @@ public class PictureDataController {
         int totalPictures = pictureDataService.getTotalPictures();
         
         int totalPages = (int) Math.ceil((double) totalPictures / PAGE_SIZE);
-        
+        String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
+        model.addAttribute("username",loginSession);
         model.addAttribute("pictureDataDTOS", pictureDataDTOS);
         model.addAttribute("currentPage", page);
         model.addAttribute("currentNextPage", page + 1);
         model.addAttribute("currentLastPage", page - 1);
         model.addAttribute("totalPages", totalPages);
+
         
         return "/admin/user/fileData";
+    }
+    
+    @GetMapping("pictureDataSearch/delete/{id}")
+    public String pictureDataDelete(@PathVariable("id") Long id, Model model) {
+        pictureDataService.deleteByImgId(id);
+        return "redirect:/admin/pictureDataSearch";
     }
 }

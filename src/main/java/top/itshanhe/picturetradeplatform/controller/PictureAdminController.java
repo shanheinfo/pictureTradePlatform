@@ -54,7 +54,7 @@ public class PictureAdminController {
                                 @RequestParam(name = "page", defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "null") String keyword,
                                 @RequestParam(defaultValue = "null") String searchOption,
-                                @RequestParam(defaultValue = "null") String searchType) {
+                                @RequestParam(defaultValue = "null") String searchType,HttpServletRequest request) {
     
         // 计算偏移量，用于数据库查询时的分页 数据，也就是从哪里开始
         // 当 page 为 1 时，offset 为 0，表示从查询结果的第一条记录开始获取数据
@@ -78,7 +78,8 @@ public class PictureAdminController {
     
         // 计算总页数，使用Math.ceil确保总页数为正整数
         int totalPages = (int) Math.ceil((double) totalUsers / PAGE_SIZE);
-    
+        String loginSession = (String) request.getSession().getAttribute(Constants.LOGIN_KEY);
+        model.addAttribute("username",loginSession);
         // 将分页数据传递到前端，供页面渲染使用
         model.addAttribute("userLookDataDTOS", userLookDataDTOS);
         model.addAttribute("currentPage", page);
@@ -89,6 +90,12 @@ public class PictureAdminController {
         model.addAttribute("totalPages", totalPages);
         
         return "/admin/user/userData";
+    }
+    
+    @GetMapping("/admin/userData/delete/{id}")
+    public String deleteId(@PathVariable("id") String id) {
+        userService.deleteByImgId(id);
+        return "redirect:/admin/userData";
     }
 
     @GetMapping({"/admin/","/admin","/admin/index", "/admin/index.html"})

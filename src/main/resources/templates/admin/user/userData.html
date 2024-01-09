@@ -68,7 +68,7 @@
                 <td th:text="${user.userStatus ? '是' : '否'}"></td>
                 <td>
                     <button class="btn btn-info btn-sm">查看详情</button>
-                    <button class="btn btn-danger btn-sm">删除</button>
+                    <a class="btn btn-danger btn-sm" th:href="'/admin/userData/delete/' + ${user.userId}">删除</a>
                     <button class="btn btn-warning btn-sm">禁用</button>
                 </td>
             </tr>

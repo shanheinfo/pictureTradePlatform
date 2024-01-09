@@ -224,6 +224,13 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
         return pictureImgs;
     }
     
+    @Override
+    public void deleteByImgId(Long id) {
+        QueryWrapper<PictureData> pictureDataQueryWrapper = new QueryWrapper<>();
+        pictureDataQueryWrapper.eq("img_id", id);
+        remove(pictureDataQueryWrapper);
+    }
+    
     private PictureImg convertToPictureDTO(PictureData pictureData) {
         PictureImg pictureImg = new PictureImg();
         pictureImg.setId(pictureData.getImgId());
@@ -255,7 +262,7 @@ public class PictureDataServiceImpl extends ServiceImpl<PictureDataMapper, Pictu
 //        pictureDataDTO.setImgIndex(pictureData.getImgIndex());
         pictureDataDTO.setUserId(pictureData.getUserId());
         pictureDataDTO.setImgMoney(pictureData.getImgMoney());
-        
+        pictureDataDTO.setImgAddr(Domain + "/download?uid=" +pictureData.getImgId()+ "&imgName="+  pictureFileService.getFileUrl(pictureData.getImgId()));
         PictureUser user = pictureUserService.getById(pictureData.getUserId());
         if (user != null) {
             pictureDataDTO.setUserName(user.getUserName());

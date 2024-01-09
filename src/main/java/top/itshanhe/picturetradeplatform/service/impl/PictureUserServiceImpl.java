@@ -158,4 +158,11 @@ public class PictureUserServiceImpl extends ServiceImpl<PictureUserMapper, Pictu
         return pictureUser;
     }
     
+    @Override
+    public void deleteByImgId(String id) {
+        QueryWrapper<PictureUser> pictureDataQueryWrapper = new QueryWrapper<>();
+        pictureDataQueryWrapper.eq("user_id", id);
+        remove(pictureDataQueryWrapper);
+    }
+    
 }

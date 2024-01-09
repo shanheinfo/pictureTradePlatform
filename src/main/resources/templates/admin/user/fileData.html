@@ -99,7 +99,7 @@
         <td th:text="${picture.imgMoney}"></td>
         <td>
           <button class="btn btn-info btn-sm">查看详情</button>
-          <button class="btn btn-danger btn-sm">删除</button>
+          <a class="btn btn-danger btn-sm" th:href="'/admin/pictureDataSearch/delete/' + ${picture.id}">删除</a>
         </td>
       </tr>
       </tbody>
