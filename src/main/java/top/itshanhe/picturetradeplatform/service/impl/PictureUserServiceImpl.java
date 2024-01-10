@@ -2,6 +2,7 @@ package top.itshanhe.picturetradeplatform.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import top.itshanhe.picturetradeplatform.dto.UserDTO;
@@ -160,9 +161,10 @@ public class PictureUserServiceImpl extends ServiceImpl<PictureUserMapper, Pictu
     
     @Override
     public void deleteByImgId(String id) {
-        QueryWrapper<PictureUser> pictureDataQueryWrapper = new QueryWrapper<>();
-        pictureDataQueryWrapper.eq("user_id", id);
-        remove(pictureDataQueryWrapper);
+        UpdateWrapper<PictureUser> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("user_status", true);
+        updateWrapper.eq("user_id", id);
+        update(updateWrapper);
     }
     
 }
